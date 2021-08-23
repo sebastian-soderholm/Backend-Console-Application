@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="bin\" />
+    <Folder Include="SQL\" />
   </ItemGroup>
 
 </Project>
