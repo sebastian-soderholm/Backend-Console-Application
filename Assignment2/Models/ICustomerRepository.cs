@@ -9,6 +9,10 @@ namespace Assignment2.Models
     public interface ICustomerRepository
     {
         void GetAll();
-        void GetCustomerById(int id);
+        void GetCustomerById(int CustomerId);
+        void GetCustomreByName(string CustomerName);
+        void GetCustomersPage(int limit, int offset);
+        void AddCustomer();
+
     }
 }

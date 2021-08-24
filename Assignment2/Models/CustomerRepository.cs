@@ -18,6 +18,12 @@ namespace Assignment2
             builder.InitialCatalog = "Chinook";
             builder.IntegratedSecurity = true;
         }
+
+        public void AddCustomer()
+        {
+            throw new NotImplementedException();
+        }
+
         public void GetAll()
         {
             try
@@ -147,6 +153,14 @@ namespace Assignment2
             }
         }
 
+        public void GetCustomersPage(int limit, int offset)
+        {
+            throw new NotImplementedException();
+        }
 
+        public void GetCustomreByName(string CustomerName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
