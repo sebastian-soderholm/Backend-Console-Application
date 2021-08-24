@@ -12,7 +12,7 @@ namespace Assignment2
 
             Customers customersQuery = new Customers();
 
-            customersQuery.GetCustomers();
+            customersQuery.GetCustomer(16);
 
             
             
