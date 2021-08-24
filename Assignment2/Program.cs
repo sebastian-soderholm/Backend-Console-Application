@@ -11,7 +11,7 @@ namespace Assignment2
         {
             ICustomerRepository customerRepo = new CustomerRepository();
 
-            Console.WriteLine(customerRepo.GetCustomerById(16).ToString());
+            //Console.WriteLine(customerRepo.GetCustomerById(16).ToString());
 
             List<Customer> customers = customerRepo.GetAll();
 

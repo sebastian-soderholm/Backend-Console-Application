@@ -31,16 +31,12 @@ namespace Assignment2.Models
         /// <returns>String of customer details</returns>
         public override string ToString()
         {
-            StringBuilder customerStringBuilder = new StringBuilder();
-
-            return customerStringBuilder.AppendFormat(
-                $"First name: {FirstName} \n" +
+            return $"First name: {FirstName} \n" +
                 $"Last name: {LastName} \n" +
                 $"Country: {Country} \n" +
                 $"Postal code: {PostalCode} \n" +
                 $"Phone number: {PhoneNumber} \n" +
-                $"Email: {Email} \n"
-             ).ToString();
+                $"Email: {Email} \n";
         }
     }
 }

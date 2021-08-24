@@ -39,6 +39,54 @@ namespace Assignment2
             throw new NotImplementedException();
         }
 
+        public Customer GetCustomerById(int id)
+        {
+            Customer customerFromDB = null;
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(Builder.ConnectionString))
+                {
+                    connection.Open();
+
+                    string query = $"SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email " +
+                        $"FROM Customer WHERE CustomerId = {id}";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            try
+                            {
+                                if (reader.Read())
+                                {
+                                    customerFromDB = new Customer(
+                                    reader.GetInt32(0),
+                                    reader.GetString(1),
+                                    reader.GetString(2),
+                                    reader.GetString(3),
+                                    reader.GetString(4),
+                                    reader.GetString(5),
+                                    reader.GetString(6)
+                                    );
+                                }
+                                reader.Close();
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine("Error: " + ex.ToString());
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return customerFromDB;
+        }
+
         public List<Customer> GetAll()
         {
             List<Customer> customerToReturn = new List<Customer>();
@@ -57,6 +105,7 @@ namespace Assignment2
                         {
                             try
                             {
+                                //reader.IsDBNull check usage to prevent first null object??
                                 while (reader.Read())
                                 {
                                     Customer customerFromDB = new Customer(
@@ -71,10 +120,11 @@ namespace Assignment2
 
                                     customerToReturn.Add(customerFromDB);
                                 }
+                                reader.Close();
                             }
                             catch (Exception ex)
                             {
-                                Console.WriteLine("This is fine :D");
+                                Console.WriteLine("Error: " + ex.ToString());
                             }
                         }
                     }
@@ -88,51 +138,7 @@ namespace Assignment2
             return customerToReturn;
         }
 
-        public Customer GetCustomerById(int id)
-        {
-            Customer customerFromDB = null;
-            try
-            {
-                using (SqlConnection connection = new SqlConnection(Builder.ConnectionString))
-                {
-                    connection.Open();
-
-                    string query = $"SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer WHERE CustomerId = {id}";
-
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            try
-                            {
-                                while (reader.Read())
-                                {
-                                    customerFromDB = new Customer(
-                                    reader.GetInt32(0),
-                                    reader.GetString(1),
-                                    reader.GetString(2),
-                                    reader.GetString(3),
-                                    reader.GetString(4),
-                                    reader.GetString(5),
-                                    reader.GetString(6)
-                                    );
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine("This is fine :D");
-                            }
-                        }
-                    }
-                }
-            }
-            catch (SqlException ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-
-            return customerFromDB;
-        }
+        
 
         public Customer GetCustomerByName(string CustomerName)
         {
