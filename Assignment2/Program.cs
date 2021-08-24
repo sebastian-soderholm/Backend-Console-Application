@@ -1,7 +1,7 @@
 ﻿using Assignment2.Models;
 using Microsoft.Data.SqlClient;
 using System;
-
+using System.Collections.Generic;
 
 namespace Assignment2
 {
@@ -11,7 +11,14 @@ namespace Assignment2
         {
             ICustomerRepository customerRepo = new CustomerRepository();
 
-            customerRepo.GetCustomerById(16);
+            Console.WriteLine(customerRepo.GetCustomerById(16).ToString());
+
+            List<Customer> customers = customerRepo.GetAll();
+
+            foreach (Customer customer in customers)
+            {
+                Console.WriteLine(customer.ToString());
+            }
         }
     }
 }
