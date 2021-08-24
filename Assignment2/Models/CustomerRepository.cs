@@ -13,18 +13,25 @@ namespace Assignment2
         public SqlConnectionStringBuilder Builder = new SqlConnectionStringBuilder();
         public Customer Customer;
 
+        /// <summary>
+        /// Initialize SQL Connection Builder with default values
+        /// </summary>
         public CustomerRepository()
         {
             Builder.DataSource = @"5CG05206QS\SQLEXPRESS";
             Builder.InitialCatalog = "Chinook";
             Builder.IntegratedSecurity = true;
         }
-
-        public CustomerRepository(string dataSource, string initialCatalog, bool integratedSecurity)
+        /// <summary>
+        /// Initialize SQL Connection Builder with given parameter values
+        /// </summary>
+        /// <param name="dataSource">Builder.DataSource path to database without @ sign</param>
+        /// <param name="initialCatalog">Name of database</param>
+        public CustomerRepository(string dataSource, string initialCatalog)
         {
             Builder.DataSource = "@" + dataSource;
             Builder.InitialCatalog = initialCatalog;
-            Builder.IntegratedSecurity = integratedSecurity;
+            Builder.IntegratedSecurity = true;
         }
 
         public void AddCustomer(Customer addCustomer)
