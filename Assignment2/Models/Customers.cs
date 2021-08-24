@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Assignment2.Models;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace Assignment2
 {
-    public class Customers
+    public class CustomerRepository : ICustomerRepository
     {
         public SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
 
-        public Customers()
+        public CustomerRepository()
         {
             builder.DataSource = @"5CG05206QS\SQLEXPRESS";
             builder.InitialCatalog = "Chinook";
             builder.IntegratedSecurity = true;
         }
-        public void GetCustomers()
+        public void GetAll()
         {
             try
             {
@@ -82,7 +83,7 @@ namespace Assignment2
 
         }
 
-        public void GetCustomer(int id)
+        public void GetCustomerById(int id)
         {
             try
             {

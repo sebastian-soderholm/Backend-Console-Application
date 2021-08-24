@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Assignment2.Models;
+using Microsoft.Data.SqlClient;
 using System;
 
 
@@ -8,20 +9,9 @@ namespace Assignment2
     {
         static void Main(string[] args)
         {
+            ICustomerRepository customerRepo = new CustomerRepository();
 
-
-            Customers customersQuery = new Customers();
-
-            customersQuery.GetCustomer(16);
-
-            
-            
-
-
-
-
-
-
+            customerRepo.GetCustomerById(16);
         }
     }
 }
