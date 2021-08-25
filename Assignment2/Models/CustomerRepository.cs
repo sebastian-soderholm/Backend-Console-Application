@@ -36,7 +36,32 @@ namespace Assignment2
 
         public Customer AddCustomer(Customer addCustomer)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(Builder.ConnectionString))
+                {
+                    connection.Open();
+
+                    string query = "INSERT INTO Customer (FirstName, LastName, Country, PostalCode, Phone, Email) VALUES (@FirstName, @LastName, @Country, @PostalCode, @Phone, @Email)";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@FirstName", addCustomer.FirstName);
+                        command.Parameters.AddWithValue("@LastName", addCustomer.LastName);
+                        command.Parameters.AddWithValue("@Country", addCustomer.Country);
+                        command.Parameters.AddWithValue("@Phone", addCustomer.PhoneNumber);
+                        command.Parameters.AddWithValue("@Email", addCustomer.Email);
+
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.ToString());
+            }
+
+            return addCustomer;
         }
 
         public Customer GetCustomerById(int id)

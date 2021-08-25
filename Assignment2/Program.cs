@@ -21,6 +21,17 @@ namespace Assignment2
             }
 
             Console.WriteLine(customerRepo.GetCustomerByName("Hannah"));
+
+            Customer testAdd = new Customer()
+            {
+                FirstName = "Bruce",
+                LastName = "Wayne",
+                Country = "USA",
+                PostalCode = "53540",
+                PhoneNumber = "050123456",
+                Email = "batman@wayneenterprises.com"
+            };
+            customerRepo.AddCustomer(testAdd);
         }
     }
 }
