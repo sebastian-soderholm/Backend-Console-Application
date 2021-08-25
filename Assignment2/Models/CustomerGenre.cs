@@ -10,6 +10,10 @@ namespace Assignment2.Models
     {
         public List<string> Genre { get; set; }
 
+        public CustomerGenre()
+        {
+            Genre = new List<string>();
+        }
         /// <summary>
         /// Add genre as string for CustomerGenre
         /// </summary>
@@ -17,6 +21,19 @@ namespace Assignment2.Models
         public void AddCustomerGenre(string genre)
         {
             Genre.Append(genre);
+        }
+
+        public override string ToString()
+        {
+            StringBuilder returnString = new StringBuilder();
+
+            foreach (string genre in Genre)
+            {
+                returnString.Append(genre);
+            }
+
+            return returnString.ToString();
+
         }
     }
 }

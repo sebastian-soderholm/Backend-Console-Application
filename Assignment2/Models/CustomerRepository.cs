@@ -288,24 +288,22 @@ namespace Assignment2
 
         public CustomerGenre GetMostPopularGenre(Customer customer)
         {
-            CustomerGenre customerGenre = new CustomerGenre();
+            CustomerGenre customerGenres = new CustomerGenre();
             try
             {
                 using (SqlConnection connection = new SqlConnection(Builder.ConnectionString))
                 {
                     connection.Open();
 
-                    string query = "SELECT Customer.CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email, Genre.Name" +
-                                    "FROM Customer " +
-                                    "JOIN Invoice " +
-                                    "	ON Customer.CustomerId = Invoice.CustomerId " +
-                                    "JOIN InvoiceLine " +
-                                    "	ON Invoice.CustomerId = InvoiceLine.InvoiceId " +
-                                    "JOIN Track " +
-                                    "	ON InvoiceLine.TrackId = Track.TrackId " +
-                                    "JOIN Genre " +
-                                    "	ON Track.GenreId = Genre.GenreId " +
-                                    $"WHERE Customer.CustomerId = {customer.Id}";
+                    string query = "SELECT Genre.Name, COUNT(Genre.Name) AS amount " +
+                                    "FROM Customer, Invoice, InvoiceLine, Track, Genre " +
+                                    "WHERE Customer.CustomerId = Invoice.CustomerId " +
+                                    "AND Invoice.CustomerId = InvoiceLine.InvoiceId " +
+                                    "AND InvoiceLine.TrackId = Track.TrackId " +
+                                    "AND Track.GenreId = Genre.GenreId " +
+                                    $"AND Customer.CustomerId = {customer.Id} " +
+                                    "GROUP BY Genre.Name " +
+                                    "ORDER BY amount DESC";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -313,20 +311,16 @@ namespace Assignment2
                         {
                             try
                             {
+                                int maxAmountOfGenres = 0;
                                 //reader.IsDBNull check usage to prevent first null object??
                                 while (reader.Read())
                                 {
-                                    Customer customerFromDB = new Customer(
-                                    reader.GetInt32(0),
-                                    reader.GetString(1),
-                                    reader.GetString(2),
-                                    reader.GetString(3),
-                                    reader.GetString(4),
-                                    reader.GetString(5),
-                                    reader.GetString(6)
-                                    );
-
-                                    customerGenre.AddCustomerGenre(reader.GetString(7));
+                                    //Check if several genres with highest number of occurences (ordered DESC)
+                                    if (maxAmountOfGenres < reader.GetInt32(1))
+                                    {
+                                        customerGenres.AddCustomerGenre(reader.GetString(0));
+                                        maxAmountOfGenres = reader.GetInt32(1);
+                                    }
                                 }
                                 reader.Close();
                             }
@@ -343,7 +337,7 @@ namespace Assignment2
                 Console.WriteLine(ex.Message);
             }
 
-            return customerGenre;
+            return customerGenres;
         }
     }
 }

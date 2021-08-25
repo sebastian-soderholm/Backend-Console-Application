@@ -9,7 +9,6 @@ namespace Assignment2
     {
         static void Main(string[] args)
         {
-            ICustomerRepository customerRepo = new CustomerRepository();
 
 
 
