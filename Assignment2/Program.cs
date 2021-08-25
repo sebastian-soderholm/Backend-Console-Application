@@ -11,27 +11,9 @@ namespace Assignment2
         {
             ICustomerRepository customerRepo = new CustomerRepository();
 
-            CustomerSpender customerSpendings = customerRepo.GetHighestSpendingCustomers();
 
-            List<Customer> customers = customerRepo.GetCustomers();
 
-            foreach (Customer customer in customers)
-            {
-                Console.WriteLine(customer.ToString());
-            }
 
-            Console.WriteLine(customerRepo.GetCustomerByName("Hannah"));
-
-            Customer testCustomer = new Customer()
-            {
-                FirstName = "Bruce",
-                LastName = "Wayne",
-                Country = "USA",
-                PostalCode = "53540",
-                PhoneNumber = "050123456",
-                Email = "batman@wayneenterprises.com"
-            };
-            customerRepo.AddCustomer(testCustomer);
         }
     }
 }

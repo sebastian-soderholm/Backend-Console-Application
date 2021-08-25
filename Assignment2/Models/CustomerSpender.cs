@@ -10,6 +10,16 @@ namespace Assignment2.Models
     {
         public Dictionary<Customer, double> CustomerSpendings { get; set; }
 
+        /// <summary>
+        /// Add a customer and spendings for given customer
+        /// </summary>
+        /// <param name="customer">Customer object to add</param>
+        /// <param name="spendings">Spendings for given customer (double)</param>
+        public void AddCustomerSpendings(Customer customer, double spendings)
+        {
+            CustomerSpendings.Add(customer, spendings);
+        }
+
         public override string ToString()
         {
             StringBuilder returnString = new StringBuilder();

@@ -238,11 +238,74 @@ namespace Assignment2
                 {
                     connection.Open();
 
-                    string query = "SELECT Customer.CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email, Invoice.Total " +
-                        "FROM Customer " +
-                        "JOIN Invoice " +
-                        "ON Customer.CustomerId = Invoice.CustomerId " +
-                        "ORDER BY Invoice.Total DESC";
+                    string query = @"
+                        SELECT Customer.CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email, Invoice.Total
+                        FROM Customer 
+                        JOIN Invoice  
+                        ON Customer.CustomerId = Invoice.CustomerId
+                        ORDER BY Invoice.Total DESC";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            try
+                            {
+                                //reader.IsDBNull check usage to prevent first null object??
+                                while (reader.Read())
+                                {
+                                    Customer customerFromDB = new Customer(
+                                    reader.GetInt32(0),
+                                    reader.GetString(1),
+                                    reader.GetString(2),
+                                    reader.GetString(3),
+                                    reader.GetString(4),
+                                    reader.GetString(5),
+                                    reader.GetString(6)
+                                    );
+                                    double invoiceTotal = reader.GetDouble(7);
+
+                                    customerSpender.AddCustomerSpendings(customerFromDB , invoiceTotal);
+                                }
+                                reader.Close();
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine("Error: " + ex.ToString());
+                            }
+                        }
+                    }
+                }
+
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return customerSpender;
+        }
+
+        public CustomerGenre GetMostPopularGenre(Customer customer)
+        {
+            CustomerGenre customerGenre = new CustomerGenre();
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(Builder.ConnectionString))
+                {
+                    connection.Open();
+
+                    string query = "SELECT Customer.CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email, Genre.Name" +
+                                    "FROM Customer " +
+                                    "JOIN Invoice " +
+                                    "	ON Customer.CustomerId = Invoice.CustomerId " +
+                                    "JOIN InvoiceLine " +
+                                    "	ON Invoice.CustomerId = InvoiceLine.InvoiceId " +
+                                    "JOIN Track " +
+                                    "	ON InvoiceLine.TrackId = Track.TrackId " +
+                                    "JOIN Genre " +
+                                    "	ON Track.GenreId = Genre.GenreId " +
+                                    $"WHERE Customer.CustomerId = {customer.Id}";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -263,7 +326,7 @@ namespace Assignment2
                                     reader.GetString(6)
                                     );
 
-                                    
+                                    customerGenre.AddCustomerGenre(reader.GetString(7));
                                 }
                                 reader.Close();
                             }
@@ -280,12 +343,7 @@ namespace Assignment2
                 Console.WriteLine(ex.Message);
             }
 
-            return customerSpender;
-        }
-
-        public CustomerGenre GetMostPopularGenre(Customer customer)
-        {
-            throw new NotImplementedException();
+            return customerGenre;
         }
     }
 }

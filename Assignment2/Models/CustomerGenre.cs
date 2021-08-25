@@ -18,6 +18,5 @@ namespace Assignment2.Models
         {
             Genre.Append(genre);
         }
-        
     }
 }
