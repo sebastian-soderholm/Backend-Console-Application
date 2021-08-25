@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Assignment2.Models;
+using Microsoft.Data.SqlClient;
+using System;
+using System.Collections.Generic;
 
 namespace Assignment2
 {
@@ -6,7 +9,16 @@ namespace Assignment2
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World! XD");
+            ICustomerRepository customerRepo = new CustomerRepository();
+
+            Console.WriteLine(customerRepo.GetCustomerById(16).ToString());
+
+            List<Customer> customers = customerRepo.GetCustomers();
+
+            foreach (Customer customer in customers)
+            {
+                Console.WriteLine(customer.ToString());
+            }
         }
     }
 }
