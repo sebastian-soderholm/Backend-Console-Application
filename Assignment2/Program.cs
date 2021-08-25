@@ -22,7 +22,7 @@ namespace Assignment2
 
             Console.WriteLine(customerRepo.GetCustomerByName("Hannah"));
 
-            Customer testAdd = new Customer()
+            Customer testCustomer = new Customer()
             {
                 FirstName = "Bruce",
                 LastName = "Wayne",
@@ -31,7 +31,7 @@ namespace Assignment2
                 PhoneNumber = "050123456",
                 Email = "batman@wayneenterprises.com"
             };
-            customerRepo.AddCustomer(testAdd);
+            customerRepo.AddCustomer(testCustomer);
         }
     }
 }

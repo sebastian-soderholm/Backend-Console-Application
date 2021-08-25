@@ -49,6 +49,7 @@ namespace Assignment2
                         command.Parameters.AddWithValue("@FirstName", addCustomer.FirstName);
                         command.Parameters.AddWithValue("@LastName", addCustomer.LastName);
                         command.Parameters.AddWithValue("@Country", addCustomer.Country);
+                        command.Parameters.AddWithValue("@PostalCode", addCustomer.PostalCode);
                         command.Parameters.AddWithValue("@Phone", addCustomer.PhoneNumber);
                         command.Parameters.AddWithValue("@Email", addCustomer.Email);
 
