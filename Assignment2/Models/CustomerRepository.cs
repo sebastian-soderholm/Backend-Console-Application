@@ -193,16 +193,77 @@ namespace Assignment2
         {
             throw new NotImplementedException();
         }
-
-        public Customer UpdateCustomer(Customer customer)
+        //MIKKO
+        public Customer UpdateCustomer(string updateContent, int customerId)
         {
-            throw new NotImplementedException();
-        }
+            Customer customerFromDB = null;
 
-        public CustomerCountry GetNumberOfCustomersByCountry(string country)
-        {
-            throw new NotImplementedException();
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(Builder.ConnectionString))
+                {
+                    connection.Open();
+
+                    //tääkin pitäs varmaan trycatchaa
+                    //injektioriski?
+                    SqlCommand cmd = new SqlCommand($"UPDATE Customer SET %{updateContent}% WHERE CustomerId = '%{customerId}%';");
+                    cmd.ExecuteNonQuery();
+
+                    //tulosta juuri muokattu?
+                }
+            } catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.ToString());
+            }
+            //tarviiko mitään returnia?
+            return null;
         }
+        //MIKKO
+        public Dictionary<string, int> GetNumberOfCustomersByCountry(string country)
+        {
+            Dictionary<String, int> results = new Dictionary<string, int>();
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(Builder.ConnectionString))
+                {
+                    connection.Open();
+
+                    string query = $"SELECT Country, COUNT(CustomerId) AS total FROM Customer GROUP BY Country ORDER BY total DESC;";
+
+                
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            try
+                            {
+                                while (reader.Read())
+                                { 
+                                    if (reader.Read())
+                                    {
+                                        results.Add(reader.GetString(0), reader.GetInt32(1));
+                                    }
+                                }
+                                reader.Close();
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine("Error: " + ex.ToString());
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            
+            return results;
+        }
+    
 
         public CustomerSpender GetHighestSpendingCustomers()
         {
