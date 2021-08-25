@@ -36,23 +36,23 @@ namespace Assignment2.Models
         /// Add customer to database
         /// </summary>
         /// <param name="customer">Customer to add to the database</param>
-        public void AddCustomer(Customer customer);
+        public Customer AddCustomer(Customer customer);
         /// <summary>
         /// Update a customer's info (with same Id)
         /// </summary>
         /// <param name="customer">Customer object to update</param>
-        public void UpdateCustomer(Customer customer);
+        public Customer UpdateCustomer(Customer customer);
         /// <summary>
         /// Get number of customers in given country
         /// </summary>
         /// <param name="country">Name of country as string</param>
         /// <returns>Customer count as int</returns>
-        public int GetNumberOfCustomersByCountry(string country);
+        public CustomerCountry GetNumberOfCustomersByCountry(string country);
         /// <summary>
         /// Get highest spending customers in descending order
         /// </summary>
         /// <returns>List of customer objects</returns>
-        public List<Customer> GetHighestSpendingCustomers();
+        public CustomerSpender GetHighestSpendingCustomers();
         /// <summary>
         /// Get most popular genres for a given customer
         /// </summary>
