@@ -140,7 +140,53 @@ namespace Assignment2
 
         public Customer GetCustomerByName(string CustomerName)
         {
-            throw new NotImplementedException();
+            List<Customer> customerToReturn = new List<Customer>();
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(Builder.ConnectionString))
+                {
+                    connection.Open();
+
+                    string query = $"SELECT * FROM Customer WHERE Customer.FirstName LIKE '%{CustomerName}%' OR Customer.LastName LIKE '%{CustomerName}%';";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            try
+                            {
+                                //reader.IsDBNull check usage to prevent first null object??
+                                while (reader.Read())
+                                {
+                                    Customer customerFromDB = new Customer(
+                                    reader.GetInt32(0),
+                                    reader.GetString(1),
+                                    reader.GetString(2),
+                                    reader.GetString(3),
+                                    reader.GetString(4),
+                                    reader.GetString(5),
+                                    reader.GetString(6)
+                                    );
+
+                                    customerToReturn.Add(customerFromDB);
+                                }
+                                reader.Close();
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine("Error: " + ex.ToString());
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return customerToReturn;
         }
 
         public List<Customer> GetCustomersPage(int limit, int offset)
