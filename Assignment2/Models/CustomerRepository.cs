@@ -87,7 +87,7 @@ namespace Assignment2
             return customerFromDB;
         }
 
-        public List<Customer> GetAll()
+        public List<Customer> GetCustomers()
         {
             List<Customer> customerToReturn = new List<Customer>();
             
@@ -138,8 +138,6 @@ namespace Assignment2
             return customerToReturn;
         }
 
-        
-
         public Customer GetCustomerByName(string CustomerName)
         {
             throw new NotImplementedException();
@@ -150,7 +148,12 @@ namespace Assignment2
             throw new NotImplementedException();
         }
 
-        public void GetCustomreByName(string CustomerName)
+        public void UpdateCustomer(Customer customer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetNumberOfCustomersByCountry(string country)
         {
             throw new NotImplementedException();
         }
@@ -161,16 +164,6 @@ namespace Assignment2
         }
 
         public List<string> GetMostPopularGenre(int CustomerId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int GetNumberOfCustomersByCountry(string country)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateCustomer(Customer customer)
         {
             throw new NotImplementedException();
         }

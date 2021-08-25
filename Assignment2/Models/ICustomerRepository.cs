@@ -12,7 +12,7 @@ namespace Assignment2.Models
         /// Get all customers
         /// </summary>
         /// <returns>List of customer objects</returns>
-        public List<Customer> GetAll();
+        public List<Customer> GetCustomers();
         /// <summary>
         /// Get customer by Id number
         /// </summary>
