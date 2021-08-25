@@ -18,7 +18,7 @@ namespace Assignment2
         /// </summary>
         public CustomerRepository()
         {
-            Builder.DataSource = @"5CG05206QS\SQLEXPRESS";
+            Builder.DataSource = @"5CG05206QV\SQLEXPRESS"; // @"5CG05206QS\SQLEXPRESS";
             Builder.InitialCatalog = "Chinook";
             Builder.IntegratedSecurity = true;
         }
@@ -140,15 +140,14 @@ namespace Assignment2
 
         public Customer GetCustomerByName(string CustomerName)
         {
-            Customer customerToReturn = new Customer();
-
+            Customer customerFromDB = null;
             try
             {
                 using (SqlConnection connection = new SqlConnection(Builder.ConnectionString))
                 {
                     connection.Open();
 
-                    string query = $"SELECT * FROM Customer WHERE Customer.FirstName LIKE '%{CustomerName}%' OR Customer.LastName LIKE '%{CustomerName}%';";
+                    string query = $"SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer WHERE Customer.FirstName LIKE '%{CustomerName}%' OR Customer.LastName LIKE '%{CustomerName}%'";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -156,10 +155,9 @@ namespace Assignment2
                         {
                             try
                             {
-                                //reader.IsDBNull check usage to prevent first null object??
-                                while (reader.Read())
+                                if (reader.Read())
                                 {
-                                    Customer customerFromDB = new Customer(
+                                    customerFromDB = new Customer(
                                     reader.GetInt32(0),
                                     reader.GetString(1),
                                     reader.GetString(2),
@@ -168,8 +166,6 @@ namespace Assignment2
                                     reader.GetString(5),
                                     reader.GetString(6)
                                     );
-
-                                    customerToReturn = customerFromDB;
                                 }
                                 reader.Close();
                             }
@@ -186,7 +182,8 @@ namespace Assignment2
                 Console.WriteLine(ex.Message);
             }
 
-            return customerToReturn;
+            return customerFromDB;
+
         }
 
         public List<Customer> GetCustomersPage(int limit, int offset)

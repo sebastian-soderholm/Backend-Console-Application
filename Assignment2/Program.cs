@@ -19,6 +19,8 @@ namespace Assignment2
             {
                 Console.WriteLine(customer.ToString());
             }
+
+            Console.WriteLine(customerRepo.GetCustomerByName("Hannah"));
         }
     }
 }
