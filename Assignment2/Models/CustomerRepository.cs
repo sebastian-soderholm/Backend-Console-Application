@@ -18,7 +18,7 @@ namespace Assignment2
         /// </summary>
         public CustomerRepository()
         {
-            Builder.DataSource = @"5CG05206QS\SQLEXPRESS";
+            Builder.DataSource =  @"5CG05206QS\SQLEXPRESS"; // Peppi - @"5CG05206QV\SQLEXPRESS"
             Builder.InitialCatalog = "Chinook";
             Builder.IntegratedSecurity = true;
         }
@@ -36,7 +36,34 @@ namespace Assignment2
 
         public Customer AddCustomer(Customer addCustomer)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(Builder.ConnectionString))
+                {
+                    connection.Open();
+
+                    string query = "INSERT INTO Customer (FirstName, LastName, Country, PostalCode, Phone, Email) " + 
+                        "VALUES (@FirstName, @LastName, @Country, @PostalCode, @Phone, @Email)";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@FirstName", addCustomer.FirstName);
+                        command.Parameters.AddWithValue("@LastName", addCustomer.LastName);
+                        command.Parameters.AddWithValue("@Country", addCustomer.Country);
+                        command.Parameters.AddWithValue("@PostalCode", addCustomer.PostalCode);
+                        command.Parameters.AddWithValue("@Phone", addCustomer.PhoneNumber);
+                        command.Parameters.AddWithValue("@Email", addCustomer.Email);
+
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.ToString());
+            }
+
+            return addCustomer;
         }
 
         public Customer GetCustomerById(int id)
@@ -140,15 +167,15 @@ namespace Assignment2
 
         public Customer GetCustomerByName(string CustomerName)
         {
-            Customer customerToReturn = new Customer();
-
+            Customer customerFromDB = null;
             try
             {
                 using (SqlConnection connection = new SqlConnection(Builder.ConnectionString))
                 {
                     connection.Open();
 
-                    string query = $"SELECT * FROM Customer WHERE Customer.FirstName LIKE '%{CustomerName}%' OR Customer.LastName LIKE '%{CustomerName}%';";
+                    string query = $"SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer" +
+                        $"WHERE Customer.FirstName LIKE '%{CustomerName}%' OR Customer.LastName LIKE '%{CustomerName}%'";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -156,10 +183,9 @@ namespace Assignment2
                         {
                             try
                             {
-                                //reader.IsDBNull check usage to prevent first null object??
-                                while (reader.Read())
+                                if (reader.Read())
                                 {
-                                    Customer customerFromDB = new Customer(
+                                    customerFromDB = new Customer(
                                     reader.GetInt32(0),
                                     reader.GetString(1),
                                     reader.GetString(2),
@@ -168,8 +194,6 @@ namespace Assignment2
                                     reader.GetString(5),
                                     reader.GetString(6)
                                     );
-
-                                    customerToReturn = customerFromDB;
                                 }
                                 reader.Close();
                             }
@@ -186,7 +210,7 @@ namespace Assignment2
                 Console.WriteLine(ex.Message);
             }
 
-            return customerToReturn;
+            return customerFromDB;
         }
 
         public List<Customer> GetCustomersPage(int limit, int offset)
