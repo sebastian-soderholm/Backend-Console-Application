@@ -18,7 +18,7 @@ namespace Assignment2
         /// </summary>
         public CustomerRepository()
         {
-            Builder.DataSource =  @"5CG05206QS\SQLEXPRESS"; // Peppi - @"5CG05206QV\SQLEXPRESS"
+            Builder.DataSource = @"5CG05206R1\SQLEXPRESS"; // Peppi - @"5CG05206QV\SQLEXPRESS"
             Builder.InitialCatalog = "Chinook";
             Builder.IntegratedSecurity = true;
         }
@@ -218,65 +218,64 @@ namespace Assignment2
             throw new NotImplementedException();
         }
         //MIKKO
-        public Customer UpdateCustomer(string updateContent, int customerId)
+        //vois olla void
+        public void UpdateCustomer(Customer customer)
         {
-            Customer customer = new Customer();
+            string query = "UPDATE Customer SET FirstName=@firstName WHERE CustomerId = @customerId;";
             try
             {
                 using (SqlConnection connection = new SqlConnection(Builder.ConnectionString))
+                //laajenna loppuun!
+                using (SqlCommand cmd = new SqlCommand(query, connection))
                 {
                     connection.Open();
+                    cmd.Parameters.AddWithValue("@firstName", customer.FirstName);
+                    cmd.Parameters.AddWithValue("@customerId", customer.Id);
 
                     //tääkin pitäs varmaan trycatchaa
                     //injektioriski?
-                    SqlCommand cmd = new SqlCommand($"UPDATE Customer SET %{updateContent}% WHERE CustomerId = '%{customerId}%';");
+                    
+                    
                     cmd.ExecuteNonQuery();
 
+                  
                     //tulosta juuri muokattu?
                 }
-            } catch (Exception ex)
+                //vähän parantais exceptionii
+            } catch (SqlException ex)
             {
+                // Wrappaa uuteen repository exceptioniin, joka ottaa alkuperäisen exceptionin sisään. Tallennetaan se propertyyn
+               // throw new RepositoryException(ex);
                 Console.WriteLine("Error: " + ex.ToString());
             }
             //tarviiko mitään returnia?
-            return customer;
         }
         //MIKKO
-        public List<CustomerCountry> GetNumberOfCustomersByCountry(string country)
+        public List<CustomerCountry> GetNumberOfCustomersByCountry()
         {
             List<CustomerCountry> customerNumbers = new List<CustomerCountry>();
+            string query = $"SELECT Country, COUNT(CustomerId) AS total FROM Customer GROUP BY Country ORDER BY total DESC;";
 
             try
             {
                 using (SqlConnection connection = new SqlConnection(Builder.ConnectionString))
+                using (SqlCommand command = new SqlCommand(query, connection))
+                
                 {
                     connection.Open();
-
-                    string query = $"SELECT Country, COUNT(CustomerId) AS total FROM Customer GROUP BY Country ORDER BY total DESC;";
-
-                
-
-                    using (SqlCommand command = new SqlCommand(query, connection))
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            try
-                            {
-                                while (reader.Read())
-                                {
-                                    CustomerCountry customerCountryNumber = new CustomerCountry(
-                                    reader.GetString(0),
-                                    reader.GetInt32(1)
-                                   );
 
-                                    customerNumbers.Add(customerCountryNumber);
-                                }
-                                reader.Close();
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine("Error: " + ex.ToString());
-                            }
+
+
+                        while (reader.Read())
+                        {
+                            CustomerCountry customerCountryNumber = new CustomerCountry(
+                            reader.GetString(0),
+                            reader.GetInt32(1)
+                            );
+
+                            customerNumbers.Add(customerCountryNumber);
                         }
                     }
                 }
