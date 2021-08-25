@@ -58,7 +58,7 @@ namespace Assignment2.Models
         /// </summary>
         /// <param name="CustomerId">Customer's id number to get genres of</param>
         /// <returns>List of genres as strings, contains multiple genres in the case of a tie</returns>
-        public List<string> GetMostPopularGenre(int CustomerId);
+        public CustomerGenre GetMostPopularGenre(int CustomerId);
 
 
     }

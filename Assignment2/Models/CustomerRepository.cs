@@ -34,7 +34,7 @@ namespace Assignment2
             Builder.IntegratedSecurity = true;
         }
 
-        public void AddCustomer(Customer addCustomer)
+        public Customer AddCustomer(Customer addCustomer)
         {
             throw new NotImplementedException();
         }
@@ -148,22 +148,22 @@ namespace Assignment2
             throw new NotImplementedException();
         }
 
-        public void UpdateCustomer(Customer customer)
+        public Customer UpdateCustomer(Customer customer)
         {
             throw new NotImplementedException();
         }
 
-        public int GetNumberOfCustomersByCountry(string country)
+        public CustomerCountry GetNumberOfCustomersByCountry(string country)
         {
             throw new NotImplementedException();
         }
 
-        public List<Customer> GetHighestSpendingCustomers()
+        public CustomerSpender GetHighestSpendingCustomers()
         {
             throw new NotImplementedException();
         }
 
-        public List<string> GetMostPopularGenre(int CustomerId)
+        public CustomerGenre GetMostPopularGenre(int CustomerId)
         {
             throw new NotImplementedException();
         }
