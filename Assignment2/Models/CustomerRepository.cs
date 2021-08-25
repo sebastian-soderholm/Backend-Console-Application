@@ -140,7 +140,7 @@ namespace Assignment2
 
         public Customer GetCustomerByName(string CustomerName)
         {
-            List<Customer> customerToReturn = new List<Customer>();
+            Customer customerToReturn;
 
             try
             {
@@ -169,7 +169,7 @@ namespace Assignment2
                                     reader.GetString(6)
                                     );
 
-                                    customerToReturn.Add(customerFromDB);
+                                    customerToReturn = customerFromDB;
                                 }
                                 reader.Close();
                             }
