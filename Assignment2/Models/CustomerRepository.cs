@@ -140,7 +140,7 @@ namespace Assignment2
 
         public Customer GetCustomerByName(string CustomerName)
         {
-            Customer customerToReturn;
+            Customer customerToReturn = new Customer();
 
             try
             {
@@ -209,7 +209,7 @@ namespace Assignment2
             throw new NotImplementedException();
         }
 
-        public CustomerGenre GetMostPopularGenre(int CustomerId)
+        public CustomerGenre GetMostPopularGenre(Customer customer)
         {
             throw new NotImplementedException();
         }

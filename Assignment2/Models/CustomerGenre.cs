@@ -8,16 +8,16 @@ namespace Assignment2.Models
 {
     public class CustomerGenre
     {
-        public List<string> Name { get; set; }
+        public List<string> Genre { get; set; }
 
-        public override string ToString()
+        /// <summary>
+        /// Add genre as string for CustomerGenre
+        /// </summary>
+        /// <param name="genre">Genre name as string</param>
+        public void AddCustomerGenre(string genre)
         {
-            string genres = "";
-            foreach (string name in Name)
-            {
-                genres = genres + name;
-            }
-            return genres;
+            Genre.Append(genre);
         }
+        
     }
 }

@@ -51,14 +51,14 @@ namespace Assignment2.Models
         /// <summary>
         /// Get highest spending customers in descending order
         /// </summary>
-        /// <returns>List of customer objects</returns>
+        /// <returns>CustomerCountry object</returns>
         public CustomerSpender GetHighestSpendingCustomers();
         /// <summary>
         /// Get most popular genres for a given customer
         /// </summary>
-        /// <param name="CustomerId">Customer's id number to get genres of</param>
-        /// <returns>List of genres as strings, contains multiple genres in the case of a tie</returns>
-        public CustomerGenre GetMostPopularGenre(int CustomerId);
+        /// <param name="CustomerId">Customer object of customer who's info is to be fetched</param>
+        /// <returns>CustomerGenre object, contains multiple genres in the case of a tie</returns>
+        public CustomerGenre GetMostPopularGenre(Customer customer);
 
 
     }
