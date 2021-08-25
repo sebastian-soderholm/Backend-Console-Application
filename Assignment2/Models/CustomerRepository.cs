@@ -18,7 +18,7 @@ namespace Assignment2
         /// </summary>
         public CustomerRepository()
         {
-            Builder.DataSource =  @"5CG05206QS\SQLEXPRESS"; // Peppi - @"5CG05206QV\SQLEXPRESS"
+            Builder.DataSource = @"5CG05206QS\SQLEXPRESS"; // Peppi - @"5CG05206QV\SQLEXPRESS"
             Builder.InitialCatalog = "Chinook";
             Builder.IntegratedSecurity = true;
         }
