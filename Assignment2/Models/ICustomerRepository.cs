@@ -41,13 +41,13 @@ namespace Assignment2.Models
         /// Update a customer's info (with same Id)
         /// </summary>
         /// <param name="customer">Customer object to update</param>
-        public Customer UpdateCustomer(Customer customer);
+        public Customer UpdateCustomer(string updateContent, int customerId);
         /// <summary>
         /// Get number of customers in given country
         /// </summary>
         /// <param name="country">Name of country as string</param>
         /// <returns>Customer count as int</returns>
-        public CustomerCountry GetNumberOfCustomersByCountry(string country);
+        public List<CustomerCountry> GetNumberOfCustomersByCountry(string country);
         /// <summary>
         /// Get highest spending customers in descending order
         /// </summary>

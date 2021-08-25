@@ -220,8 +220,7 @@ namespace Assignment2
         //MIKKO
         public Customer UpdateCustomer(string updateContent, int customerId)
         {
-            Customer customerFromDB = null;
-
+            Customer customer = new Customer();
             try
             {
                 using (SqlConnection connection = new SqlConnection(Builder.ConnectionString))
@@ -240,12 +239,12 @@ namespace Assignment2
                 Console.WriteLine("Error: " + ex.ToString());
             }
             //tarviiko mitään returnia?
-            return null;
+            return customer;
         }
         //MIKKO
-        public Dictionary<string, int> GetNumberOfCustomersByCountry(string country)
+        public List<CustomerCountry> GetNumberOfCustomersByCountry(string country)
         {
-            Dictionary<String, int> results = new Dictionary<string, int>();
+            List<CustomerCountry> customerNumbers = new List<CustomerCountry>();
 
             try
             {
@@ -264,11 +263,13 @@ namespace Assignment2
                             try
                             {
                                 while (reader.Read())
-                                { 
-                                    if (reader.Read())
-                                    {
-                                        results.Add(reader.GetString(0), reader.GetInt32(1));
-                                    }
+                                {
+                                    CustomerCountry customerCountryNumber = new CustomerCountry(
+                                    reader.GetString(0),
+                                    reader.GetInt32(1)
+                                   );
+
+                                    customerNumbers.Add(customerCountryNumber);
                                 }
                                 reader.Close();
                             }
@@ -285,7 +286,7 @@ namespace Assignment2
                 Console.WriteLine(ex.Message);
             }
             
-            return results;
+            return customerNumbers;
         }
     
 
