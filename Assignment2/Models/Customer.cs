@@ -8,6 +8,10 @@ namespace Assignment2.Models
 {
     public class Customer
     {
+        public Customer()
+        {
+
+        }
         public Customer(int id, string firstName, string lastName, string country, string postalCode, string phoneNumber, string email)
         {
             Id = id;
@@ -25,6 +29,8 @@ namespace Assignment2.Models
         public string PostalCode { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
+        public string Value { get; internal set; }
+
         /// <summary>
         /// Create string of customer properties
         /// </summary>

@@ -206,7 +206,57 @@ namespace Assignment2
 
         public CustomerSpender GetHighestSpendingCustomers()
         {
-            throw new NotImplementedException();
+            CustomerSpender customerSpender = new CustomerSpender();
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(Builder.ConnectionString))
+                {
+                    connection.Open();
+
+                    string query = "SELECT Customer.CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email, Invoice.Total " +
+                        "FROM Customer " +
+                        "JOIN Invoice " +
+                        "ON Customer.CustomerId = Invoice.CustomerId " +
+                        "ORDER BY Invoice.Total DESC";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            try
+                            {
+                                //reader.IsDBNull check usage to prevent first null object??
+                                while (reader.Read())
+                                {
+                                    Customer customerFromDB = new Customer(
+                                    reader.GetInt32(0),
+                                    reader.GetString(1),
+                                    reader.GetString(2),
+                                    reader.GetString(3),
+                                    reader.GetString(4),
+                                    reader.GetString(5),
+                                    reader.GetString(6)
+                                    );
+
+                                    
+                                }
+                                reader.Close();
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine("Error: " + ex.ToString());
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return customerSpender;
         }
 
         public CustomerGenre GetMostPopularGenre(Customer customer)

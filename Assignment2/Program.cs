@@ -11,14 +11,9 @@ namespace Assignment2
         {
             ICustomerRepository customerRepo = new CustomerRepository();
 
-            Console.WriteLine(customerRepo.GetCustomerById(16).ToString());
+            CustomerSpender customerSpendings = customerRepo.GetHighestSpendingCustomers();
 
-            List<Customer> customers = customerRepo.GetCustomers();
-
-            foreach (Customer customer in customers)
-            {
-                Console.WriteLine(customer.ToString());
-            }
+            customerSpendings.ToString();
         }
     }
 }
