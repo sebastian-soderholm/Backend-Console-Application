@@ -18,7 +18,7 @@ namespace Assignment2
         /// </summary>
         public CustomerRepository()
         {
-            Builder.DataSource = @"5CG05206QS\SQLEXPRESS"; // Peppi - @"5CG05206QV\SQLEXPRESS"
+            Builder.DataSource = @"5CG05206R1\SQLEXPRESS"; // Peppi - @"5CG05206QV\SQLEXPRESS"
             Builder.InitialCatalog = "Chinook";
             Builder.IntegratedSecurity = true;
         }
@@ -174,8 +174,7 @@ namespace Assignment2
                 {
                     connection.Open();
 
-                    string query = $"SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer" +
-                        $"WHERE Customer.FirstName LIKE '%{CustomerName}%' OR Customer.LastName LIKE '%{CustomerName}%'";
+                    string query = $"SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer WHERE Customer.FirstName LIKE '%{CustomerName}%' OR Customer.LastName LIKE '%{CustomerName}%'";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -217,16 +216,77 @@ namespace Assignment2
         {
             throw new NotImplementedException();
         }
-
-        public Customer UpdateCustomer(Customer customer)
+        //MIKKO
+        //vois olla void
+        public void UpdateCustomer(Customer customer)
         {
-            throw new NotImplementedException();
-        }
+            string query = "UPDATE Customer SET FirstName=@firstName WHERE CustomerId = @customerId;";
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(Builder.ConnectionString))
+                //laajenna loppuun!
+                using (SqlCommand cmd = new SqlCommand(query, connection))
+                {
+                    connection.Open();
+                    cmd.Parameters.AddWithValue("@firstName", customer.FirstName);
+                    cmd.Parameters.AddWithValue("@customerId", customer.Id);
 
-        public CustomerCountry GetNumberOfCustomersByCountry(string country)
-        {
-            throw new NotImplementedException();
+                    //tääkin pitäs varmaan trycatchaa
+                    //injektioriski?
+                    
+                    
+                    cmd.ExecuteNonQuery();
+
+                  
+                    //tulosta juuri muokattu?
+                }
+                //vähän parantais exceptionii
+            } catch (SqlException ex)
+            {
+                // Wrappaa uuteen repository exceptioniin, joka ottaa alkuperäisen exceptionin sisään. Tallennetaan se propertyyn
+               // throw new RepositoryException(ex);
+                Console.WriteLine("Error: " + ex.ToString());
+            }
+            //tarviiko mitään returnia?
         }
+        //MIKKO
+        public List<CustomerCountry> GetNumberOfCustomersByCountry()
+        {
+            List<CustomerCountry> customerNumbers = new List<CustomerCountry>();
+            string query = $"SELECT Country, COUNT(CustomerId) AS total FROM Customer GROUP BY Country ORDER BY total DESC;";
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(Builder.ConnectionString))
+                using (SqlCommand command = new SqlCommand(query, connection))
+                
+                {
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+
+
+
+                        while (reader.Read())
+                        {
+                            CustomerCountry customerCountryNumber = new CustomerCountry(
+                            reader.GetString(0),
+                            reader.GetInt32(1)
+                            );
+
+                            customerNumbers.Add(customerCountryNumber);
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            
+            return customerNumbers;
+        }
+    
 
         public CustomerSpender GetHighestSpendingCustomers()
         {

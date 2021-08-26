@@ -9,10 +9,34 @@ namespace Assignment2
     {
         static void Main(string[] args)
         {
+            ICustomerRepository customerRepo = new CustomerRepository();
+            
+            Console.WriteLine(customerRepo.GetCustomerById(16).ToString());
 
 
 
+            Console.WriteLine(customerRepo.GetCustomerByName("Hannah"));
+            
+            Customer testCustomer = new Customer()
+            {
+                FirstName = "Bruce",
+                LastName = "Wayne",
+                Country = "USA",
+                PostalCode = "53540",
+                PhoneNumber = "050123456",
+                Email = "batman@wayneenterprises.com"
+            };
+            customerRepo.AddCustomer(testCustomer);
 
+            /*
+            testCustomer = customerRepo.GetCustomerById(1);
+            testCustomer.FirstName = "Luis";
+            customerRepo.UpdateCustomer(testCustomer);
+            
+            List<CustomerCountry> testList = customerRepo.GetNumberOfCustomersByCountry();
+            //LinQ magics
+            testList.ForEach(x => Console.WriteLine(x.Name + " | " + x.Count));
+            */
         }
     }
 }
