@@ -331,11 +331,11 @@ namespace Assignment2
                     connection.Open();
 
                     string query = @"
-                        SELECT Customer.CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email, Invoice.Total
-                        FROM Customer 
-                        JOIN Invoice  
-                        ON Customer.CustomerId = Invoice.CustomerId
-                        ORDER BY Invoice.Total DESC";
+                        SELECT Customer.CustomerId, SUM(Invoice.Total) AS total
+                        FROM Customer, Invoice
+                        WHERE Customer.CustomerId = Invoice.CustomerId
+                        GROUP BY Customer.CustomerId
+                        ORDER BY total DESC";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -343,35 +343,34 @@ namespace Assignment2
                         {
                             try
                             {
-                                //reader.IsDBNull check usage to prevent first null object??
                                 while (reader.Read())
                                 {
-                                    string country = "";
-                                    string postalCode = "";
-                                    string phone = "";
-                                    string email = "";
+                                    //string country = "";
+                                    //string postalCode = "";
+                                    //string phone = "";
+                                    //string email = "";
 
-                                    //Country
-                                    if (!reader.IsDBNull(reader.GetOrdinal("Country"))) country = reader.GetString(3);
-                                    //Postal code
-                                    if (!reader.IsDBNull(reader.GetOrdinal("PostalCode"))) postalCode = reader.GetString(4);
-                                    //Phone 
-                                    if (!reader.IsDBNull(reader.GetOrdinal("Phone"))) phone = reader.GetString(5);
-                                    //Email
-                                    if (!reader.IsDBNull(reader.GetOrdinal("Email"))) email = reader.GetString(6);
+                                    ////Country
+                                    //if (!reader.IsDBNull(reader.GetOrdinal("Country"))) country = reader.GetString(3);
+                                    ////Postal code
+                                    //if (!reader.IsDBNull(reader.GetOrdinal("PostalCode"))) postalCode = reader.GetString(4);
+                                    ////Phone 
+                                    //if (!reader.IsDBNull(reader.GetOrdinal("Phone"))) phone = reader.GetString(5);
+                                    ////Email
+                                    //if (!reader.IsDBNull(reader.GetOrdinal("Email"))) email = reader.GetString(6);
 
 
-                                    Customer customerFromDB = new Customer(
-                                    reader.GetInt32(0),
-                                    reader.GetString(1),
-                                    reader.GetString(2),
-                                    country,
-                                    postalCode,
-                                    phone,
-                                    email
-                                    );
+                                    //Customer customerFromDB = new Customer(
+                                    //reader.GetInt32(0),
+                                    //reader.GetString(1),
+                                    //reader.GetString(2),
+                                    //country,
+                                    //postalCode,
+                                    //phone,
+                                    //email
+                                    //);
 
-                                    customerSpender.AddCustomerSpendings(customerFromDB , reader.GetDecimal(7));
+                                    customerSpender.AddCustomerSpendings(reader.GetInt32(0), reader.GetDecimal(1));
                                 }
                                 reader.Close();
                             }
