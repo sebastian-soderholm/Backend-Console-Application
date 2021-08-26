@@ -11,6 +11,7 @@ The console application can be used to choose different operations that call the
 - display top countries by customer count
 - displays top spenders among all customers
 - displays the top genre choice of a specific customer by ID 
+
 The are multiple methods you can call:
 - display all customers `GetCustomers()` returns a list of Customer objects
 
