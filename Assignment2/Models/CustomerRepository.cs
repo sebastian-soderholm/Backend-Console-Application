@@ -217,8 +217,8 @@ namespace Assignment2
         //MIKKO
         //vois olla void
         public void UpdateCustomer(Customer customer)
-        {
-            string query = "UPDATE Customer SET FirstName=@firstName WHERE CustomerId = @customerId;";
+        {               //@FirstName, @LastName, @Country, @PostalCode, @Phone, @Email
+            string query = "UPDATE Customer SET FirstName=@firstName, LastName=@lastName, Country=@country, PostalCode=@postalCode, Phone=@phone, Email=@email LastName WHERE CustomerId = @customerId;";
             try
             {
                 using (SqlConnection connection = new SqlConnection(Builder.ConnectionString))
@@ -227,16 +227,16 @@ namespace Assignment2
                 {
                     connection.Open();
                     cmd.Parameters.AddWithValue("@firstName", customer.FirstName);
+                    cmd.Parameters.AddWithValue("@lastName", customer.LastName);
+                    cmd.Parameters.AddWithValue("@country", customer.Country);
+                    cmd.Parameters.AddWithValue("@postalCode", customer.PostalCode);
+                    cmd.Parameters.AddWithValue("@phone", customer.PhoneNumber);
+                    cmd.Parameters.AddWithValue("@email", customer.Email);
                     cmd.Parameters.AddWithValue("@customerId", customer.Id);
 
-                    //tääkin pitäs varmaan trycatchaa
-                    //injektioriski?
-                    
                     
                     cmd.ExecuteNonQuery();
 
-                  
-                    //tulosta juuri muokattu?
                 }
                 //vähän parantais exceptionii
             }
@@ -248,7 +248,7 @@ namespace Assignment2
             {
                 throw new RepositoryException(ex);
             }
-            //tarviiko mitään returnia?
+        
         }
         //MIKKO
         public List<CustomerCountry> GetNumberOfCustomersByCountry()
