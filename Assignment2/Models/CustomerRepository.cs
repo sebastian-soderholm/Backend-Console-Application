@@ -29,7 +29,7 @@ namespace Assignment2
         /// <param name="initialCatalog">Name of database</param>
         public CustomerRepository(string dataSource, string initialCatalog)
         {
-            Builder.DataSource = "@" + dataSource;
+            Builder.DataSource = dataSource;
             Builder.InitialCatalog = initialCatalog;
             Builder.IntegratedSecurity = true;
         }
