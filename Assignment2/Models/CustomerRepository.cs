@@ -24,6 +24,7 @@ namespace Assignment2
             Builder.InitialCatalog = "Chinook";
             Builder.IntegratedSecurity = true;
         }
+
         /// <summary>
         /// Initialize SQL Connection Builder with given parameter values
         /// </summary>
@@ -36,7 +37,7 @@ namespace Assignment2
             Builder.IntegratedSecurity = true;
         }
 
-        public Customer AddCustomer(Customer addCustomer)
+        public void AddCustomer(Customer addCustomer)
         {
             try
             {
@@ -68,8 +69,6 @@ namespace Assignment2
             {
                 throw new RepositoryException(ex);
             }
-
-            return addCustomer;
         }
 
         public Customer GetCustomerById(int id)
@@ -104,15 +103,14 @@ namespace Assignment2
                                 //Email
                                 if (!reader.IsDBNull(reader.GetOrdinal("Email"))) email = reader.GetString(6);
 
-
                                 customerFromDB = new Customer(
-                                reader.GetInt32(0),
-                                reader.GetString(1),
-                                reader.GetString(2),
-                                country,
-                                postalCode,
-                                phone,
-                                email
+                                    reader.GetInt32(0),
+                                    reader.GetString(1),
+                                    reader.GetString(2),
+                                    country,
+                                    postalCode,
+                                    phone,
+                                    email
                                 );
                             }
                             reader.Close();
@@ -128,14 +126,12 @@ namespace Assignment2
             {
                 throw new RepositoryException(ex);
             }
-
             return customerFromDB;
         }
 
         public List<Customer> GetCustomers()
         {
             List<Customer> customerToReturn = new List<Customer>();
-            
             try
             {
                 using (SqlConnection connection = new SqlConnection(Builder.ConnectionString))
@@ -148,9 +144,8 @@ namespace Assignment2
                     {
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
-                                //reader.IsDBNull check usage to prevent first null object??
-                                while (reader.Read())
-                                {
+                            while (reader.Read())
+                            {
                                 string country = "";
                                 string postalCode = "";
                                 string phone = "";
@@ -165,20 +160,18 @@ namespace Assignment2
                                 //Email
                                 if (!reader.IsDBNull(reader.GetOrdinal("Email"))) email = reader.GetString(6);
 
-
                                 Customer customerFromDB = new Customer(
-                                reader.GetInt32(0),
-                                reader.GetString(1),
-                                reader.GetString(2),
-                                country,
-                                postalCode,
-                                phone,
-                                email
+                                    reader.GetInt32(0),
+                                    reader.GetString(1),
+                                    reader.GetString(2),
+                                    country,
+                                    postalCode,
+                                    phone,
+                                    email
                                 );
-
                                 customerToReturn.Add(customerFromDB);
-                                }
-                                reader.Close();
+                            }
+                            reader.Close();
                         }
                     }
                 }
@@ -191,7 +184,6 @@ namespace Assignment2
             {
                 throw new RepositoryException(ex);
             }
-
             return customerToReturn;
         }
 
@@ -210,9 +202,9 @@ namespace Assignment2
                     {
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
-                                if (reader.Read())
-                                {
-                                    customerFromDB = new Customer(
+                            if (reader.Read())
+                            {
+                                customerFromDB = new Customer(
                                     reader.GetInt32(0),
                                     reader.GetString(1),
                                     reader.GetString(2),
@@ -220,9 +212,9 @@ namespace Assignment2
                                     reader.GetString(4),
                                     reader.GetString(5),
                                     reader.GetString(6)
-                                    );
-                                }
-                                reader.Close();
+                                );
+                            }
+                            reader.Close();
                         }
                     }
                 }
@@ -235,7 +227,6 @@ namespace Assignment2
             {
                 throw new RepositoryException(ex);
             }
-
             return customerFromDB;
         }
 
@@ -254,7 +245,6 @@ namespace Assignment2
                     {
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
-                            //reader.IsDBNull check usage to prevent first null object??
                             while (reader.Read())
                             {
                                 string country = "";
@@ -271,17 +261,15 @@ namespace Assignment2
                                 //Email
                                 if (!reader.IsDBNull(reader.GetOrdinal("Email"))) email = reader.GetString(6);
 
-
                                 Customer customerFromDB = new Customer(
-                                reader.GetInt32(0),
-                                reader.GetString(1),
-                                reader.GetString(2),
-                                country,
-                                postalCode,
-                                phone,
-                                email
+                                    reader.GetInt32(0),
+                                    reader.GetString(1),
+                                    reader.GetString(2),
+                                    country,
+                                    postalCode,
+                                    phone,
+                                    email
                                 );
-
                                 customerToReturn.Add(customerFromDB);
                             }
                             reader.Close();
@@ -297,7 +285,6 @@ namespace Assignment2
             {
                 throw new RepositoryException(ex);
             }
-
             return customerToReturn;
         }
         
@@ -318,11 +305,8 @@ namespace Assignment2
                     cmd.Parameters.AddWithValue("@email", customer.Email);
                     cmd.Parameters.AddWithValue("@customerId", customer.Id);
 
-                    
                     cmd.ExecuteNonQuery();
-
                 }
-               
             }
             catch (SqlException ex)
             {
@@ -332,33 +316,26 @@ namespace Assignment2
             {
                 throw new RepositoryException(ex);
             }
-        
         }
         
         public List<CustomerCountry> GetNumberOfCustomersByCountry()
         {
             List<CustomerCountry> customerNumbers = new List<CustomerCountry>();
             string query = $"SELECT Country, COUNT(CustomerId) AS total FROM Customer GROUP BY Country ORDER BY total DESC;";
-
             try
             {
                 using (SqlConnection connection = new SqlConnection(Builder.ConnectionString))
                 using (SqlCommand command = new SqlCommand(query, connection))
-                
                 {
                     connection.Open();
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
-
-
-
                         while (reader.Read())
                         {
                             CustomerCountry customerCountryNumber = new CustomerCountry(
-                            reader.GetString(0),
-                            reader.GetInt32(1)
+                                reader.GetString(0),
+                                reader.GetInt32(1)
                             );
-
                             customerNumbers.Add(customerCountryNumber);
                         }
                     }
@@ -372,9 +349,9 @@ namespace Assignment2
             {
                 throw new RepositoryException(ex);
             }
-
             return customerNumbers;
         }
+
         public CustomerSpender GetHighestSpendingCustomers()
         {
             CustomerSpender customerSpender = new CustomerSpender();
@@ -411,15 +388,14 @@ namespace Assignment2
                         }
                     }
                 }
-
             }
             catch (SqlException ex)
             {
                 Console.WriteLine(ex.Message);
             }
-
             return customerSpender;
         }
+
         public CustomerGenre GetMostPopularGenreByCustomerId(int customerId)
         {
             CustomerGenre customerGenres = new CustomerGenre();
@@ -450,8 +426,7 @@ namespace Assignment2
                                 if (customerGenreAmounts.Max() == reader.GetInt32(1))
                                 {
                                     customerGenres.AddCustomerGenreAmount(reader.GetString(0), reader.GetInt32(1));
-                                }
-                                    
+                                }    
                             }
                             reader.Close();
                         }
@@ -466,7 +441,6 @@ namespace Assignment2
             {
                 throw new RepositoryException(ex);
             }
-
             return customerGenres;
         }
     }

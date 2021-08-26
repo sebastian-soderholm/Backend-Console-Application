@@ -38,7 +38,7 @@ namespace Assignment2.Models
         /// </summary>
         /// <param name="customer">Customer to add to the database</param>
         /// <exception cref="SqlException">SQL Server error</exception>
-        public Customer AddCustomer(Customer customer);
+        public void AddCustomer(Customer customer);
         /// <summary>
         /// Update a customer's info (with same Id)
         /// </summary>
