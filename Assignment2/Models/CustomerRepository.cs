@@ -18,7 +18,7 @@ namespace Assignment2
         /// </summary>
         public CustomerRepository()
         {
-            Builder.DataSource =  @"5CG05206QS\SQLEXPRESS"; // Peppi - @"5CG05206QV\SQLEXPRESS"
+            Builder.DataSource = @"5CG05206QS\SQLEXPRESS"; // Peppi - @"5CG05206QV\SQLEXPRESS";
             Builder.InitialCatalog = "Chinook";
             Builder.IntegratedSecurity = true;
         }
@@ -174,8 +174,7 @@ namespace Assignment2
                 {
                     connection.Open();
 
-                    string query = $"SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer" +
-                        $"WHERE Customer.FirstName LIKE '%{CustomerName}%' OR Customer.LastName LIKE '%{CustomerName}%'";
+                    string query = $"SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer WHERE Customer.FirstName LIKE '%{CustomerName}%' OR Customer.LastName LIKE '%{CustomerName}%'";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
