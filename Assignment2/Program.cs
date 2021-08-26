@@ -62,6 +62,7 @@ namespace Assignment2
                 {
                     Id = 50,
                     FirstName = "Bruce",
+                    LastName = "Wayne",
                     Country = "USA",
                     PostalCode = "00100",
                     PhoneNumber = "050 123 4567",
