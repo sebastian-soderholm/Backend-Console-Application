@@ -241,7 +241,64 @@ namespace Assignment2
 
         public List<Customer> GetCustomersPage(int limit, int offset)
         {
-            throw new NotImplementedException();
+            List<Customer> customerToReturn = new List<Customer>();
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(Builder.ConnectionString))
+                {
+                    connection.Open();
+
+                    string query = $"SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer ORDER BY CustomerId OFFSET {offset} ROWS FETCH NEXT {limit} ROWS ONLY ";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            //reader.IsDBNull check usage to prevent first null object??
+                            while (reader.Read())
+                            {
+                                string country = "";
+                                string postalCode = "";
+                                string phone = "";
+                                string email = "";
+
+                                //Country
+                                if (!reader.IsDBNull(reader.GetOrdinal("Country"))) country = reader.GetString(3);
+                                //Postal code
+                                if (!reader.IsDBNull(reader.GetOrdinal("PostalCode"))) postalCode = reader.GetString(4);
+                                //Phone 
+                                if (!reader.IsDBNull(reader.GetOrdinal("Phone"))) phone = reader.GetString(5);
+                                //Email
+                                if (!reader.IsDBNull(reader.GetOrdinal("Email"))) email = reader.GetString(6);
+
+
+                                Customer customerFromDB = new Customer(
+                                reader.GetInt32(0),
+                                reader.GetString(1),
+                                reader.GetString(2),
+                                country,
+                                postalCode,
+                                phone,
+                                email
+                                );
+
+                                customerToReturn.Add(customerFromDB);
+                            }
+                            reader.Close();
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw new RepositoryException(ex);
+            }
+            catch (Exception ex)
+            {
+                throw new RepositoryException(ex);
+            }
+
+            return customerToReturn;
         }
         //MIKKO
         //vois olla void
