@@ -19,6 +19,7 @@ namespace Assignment2.Models
         {
             CustomerSpendings.Add(customerId, spendings);
         }
+
         /// <summary>
         /// Generate string of customer IDs and spendings in descending order according to spendings
         /// </summary>
@@ -31,9 +32,7 @@ namespace Assignment2.Models
             {
                 returnString.Append("Customer Id: " + customer.Key + " Spending: " + customer.Value + "\n\n");
             }
-
             return returnString.ToString();
         }
-        
     }
 }

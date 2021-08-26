@@ -10,22 +10,85 @@ namespace Assignment2
     {
         static void Main(string[] args)
         {
-            ICustomerRepository customerRepo = new CustomerRepository(@"5CG05206QS\SQLEXPRESS", "Chinook");
-            //Console.WriteLine(customerRepo.GetCustomerById(45));
+            // Creating the Repository with specific server name of the database
+            ICustomerRepository customerRepo = new CustomerRepository(@"5CG05206QV\SQLEXPRESS", "Chinook");
 
-            try
+            int method = 6;
+
+            // display all customers
+            if (method == 1)
             {
-                List<Customer> customerPage = customerRepo.GetCustomersPage(2,20);
-
-                foreach(Customer customer in customerPage)
+                foreach (Customer customer in customerRepo.GetCustomers())
                 {
-                    Console.WriteLine(customer.ToString());
+                    Console.WriteLine(customer);
                 }
             }
-            catch (RepositoryException re)
+            // display specific customer by ID
+            else if (method == 2)
             {
-                Console.WriteLine();
+                Console.WriteLine(customerRepo.GetCustomerById(44));
             }
+            //read specific customer by name. accepts partial matches
+            else if (method == 3)
+            {
+                Console.WriteLine(customerRepo.GetCustomerByName("Hannah"));
+            }
+            // display a limited amount of customers starting from point of choice
+            else if (method == 4)
+            {
+                foreach (Customer customer in customerRepo.GetCustomersPage(5, 20))
+                {
+                    Console.WriteLine(customer);
+                }
+            }
+            // add new customer
+            else if (method == 5)
+            {
+                Customer bruce = new Customer()
+                {
+                    FirstName = "Bruce",
+                    LastName = "Wayne",
+                    Country = "USA",
+                    PostalCode = "00100",
+                    PhoneNumber = "050 123 4567",
+                    Email = "batman@wayneenterprise.com"
+                };
+                customerRepo.AddCustomer(bruce);
+            }
+            // update data of a customer of choice
+            else if (method == 6)
+            {
+                Customer bruce = new Customer()
+                {
+                    Id = 50,
+                    FirstName = "Bruce",
+                    Country = "USA",
+                    PostalCode = "00100",
+                    PhoneNumber = "050 123 4567",
+                    Email = "batman@wayneenterprise.com"
+                };
+                customerRepo.UpdateCustomer(bruce);
+
+            }
+            // display top countries by customer count
+            else if (method == 7)
+            {
+                foreach(CustomerCountry country in customerRepo.GetNumberOfCustomersByCountry())
+                {
+                    Console.WriteLine(country);
+                }
+            }
+            // displays top spenders among all customers
+            else if (method == 8)
+            {
+                Console.WriteLine(customerRepo.GetHighestSpendingCustomers());
+            }
+            // displays the top genre choice of a specific customer by ID
+            else if (method == 9)
+            {
+                Console.WriteLine(customerRepo.GetMostPopularGenreByCustomerId(6));
+            }
+
         }
     }
 }

@@ -17,6 +17,13 @@ namespace Assignment2.Models
             Count = count;
         }
 
-
+        /// <summary>
+        /// Create string of CustomerCountry properties
+        /// </summary>
+        /// <returns>String of CustomerCountry details</returns>
+        public override string ToString()
+        {
+            return $"Country: {Name} ({Count})";
+        }
     }
 }

@@ -50,6 +50,7 @@ namespace Assignment2
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                        // Adding Customer object's values to query's placehodlers, ID will be auto generated
                         command.Parameters.AddWithValue("@FirstName", addCustomer.FirstName);
                         command.Parameters.AddWithValue("@LastName", addCustomer.LastName);
                         command.Parameters.AddWithValue("@Country", addCustomer.Country);
@@ -70,8 +71,10 @@ namespace Assignment2
                 throw new RepositoryException(ex);
             }
         }
+
         public Customer GetCustomerById(int id)
         {
+            // Creating an empty Customer object, for values fetched from the database
             Customer customerFromDB = null;
             try
             {
@@ -88,20 +91,22 @@ namespace Assignment2
                         {
                             if (reader.Read())
                             {
+                                // Creating and initializing a empty strings for values that can be null
                                 string country = "";
                                 string postalCode = "";
                                 string phone = "";
                                 string email = "";
 
-                                //Checking if the country is not null
+                                // If the country is not null, adding the the value from database to the variable
                                 if (!reader.IsDBNull(reader.GetOrdinal("Country"))) country = reader.GetString(3);
-                                //Postal code
+                                // If the postalcode is not null, adding the the value from database to the variable
                                 if (!reader.IsDBNull(reader.GetOrdinal("PostalCode"))) postalCode = reader.GetString(4);
-                                //Phone 
+                                // If the phone is not null, adding the the value from database to the variable
                                 if (!reader.IsDBNull(reader.GetOrdinal("Phone"))) phone = reader.GetString(5 );
-                                //Email
+                                // If the email is not null, adding the the value from database to the variable
                                 if (!reader.IsDBNull(reader.GetOrdinal("Email"))) email = reader.GetString(6);
 
+                                // Adding the values to the ready made Customer object
                                 customerFromDB = new Customer(
                                     reader.GetInt32(0),
                                     reader.GetString(1),
@@ -127,8 +132,10 @@ namespace Assignment2
             }
             return customerFromDB;
         }
+
         public List<Customer> GetCustomers()
         {
+            // Creating empty list for fetched customers, that will be returned
             List<Customer> customerToReturn = new List<Customer>();
             try
             {
@@ -144,20 +151,22 @@ namespace Assignment2
                         {
                             while (reader.Read())
                             {
+                                // Creating and initializing a empty strings for values that can be null
                                 string country = "";
                                 string postalCode = "";
                                 string phone = "";
                                 string email = "";
 
-                                //Country
+                                // If the country is not null, adding the the value from database to the variable
                                 if (!reader.IsDBNull(reader.GetOrdinal("Country"))) country = reader.GetString(3);
-                                //Postal code
+                                // If the postalcode is not null, adding the the value from database to the variable
                                 if (!reader.IsDBNull(reader.GetOrdinal("PostalCode"))) postalCode = reader.GetString(4);
-                                //Phone 
+                                // If the phone is not null, adding the the value from database to the variable
                                 if (!reader.IsDBNull(reader.GetOrdinal("Phone"))) phone = reader.GetString(5);
-                                //Email
+                                // If the email is not null, adding the the value from database to the variable
                                 if (!reader.IsDBNull(reader.GetOrdinal("Email"))) email = reader.GetString(6);
 
+                                // Adding the values to the ready made Customer object
                                 Customer customerFromDB = new Customer(
                                     reader.GetInt32(0),
                                     reader.GetString(1),
@@ -167,6 +176,7 @@ namespace Assignment2
                                     phone,
                                     email
                                 );
+                                // Adding the new Customer object to the list
                                 customerToReturn.Add(customerFromDB);
                             }
                             reader.Close();
@@ -184,8 +194,10 @@ namespace Assignment2
             }
             return customerToReturn;
         }
+
         public Customer GetCustomerByName(string CustomerName)
         {
+            // Creating an empty Customer object, for values fetched from the database
             Customer customerFromDB = null;
             try
             {
@@ -201,14 +213,30 @@ namespace Assignment2
                         {
                             if (reader.Read())
                             {
+                                // Creating and initializing a empty strings for values that can be null
+                                string country = "";
+                                string postalCode = "";
+                                string phone = "";
+                                string email = "";
+
+                                // If the country is not null, adding the the value from database to the variable
+                                if (!reader.IsDBNull(reader.GetOrdinal("Country"))) country = reader.GetString(3);
+                                // If the postalcode is not null, adding the the value from database to the variable
+                                if (!reader.IsDBNull(reader.GetOrdinal("PostalCode"))) postalCode = reader.GetString(4);
+                                // If the phone is not null, adding the the value from database to the variable
+                                if (!reader.IsDBNull(reader.GetOrdinal("Phone"))) phone = reader.GetString(5);
+                                // If the email is not null, adding the the value from database to the variable
+                                if (!reader.IsDBNull(reader.GetOrdinal("Email"))) email = reader.GetString(6);
+
+                                // Adding the values to the ready made Customer object
                                 customerFromDB = new Customer(
                                     reader.GetInt32(0),
                                     reader.GetString(1),
                                     reader.GetString(2),
-                                    reader.GetString(3),
-                                    reader.GetString(4),
-                                    reader.GetString(5),
-                                    reader.GetString(6)
+                                    country,
+                                    postalCode,
+                                    phone,
+                                    email
                                 );
                             }
                             reader.Close();
@@ -226,8 +254,10 @@ namespace Assignment2
             }
             return customerFromDB;
         }
+
         public List<Customer> GetCustomersPage(int limit, int offset)
         {
+            // Creating empty list for fetched customers, that will be returned
             List<Customer> customerToReturn = new List<Customer>();
             try
             {
@@ -243,20 +273,22 @@ namespace Assignment2
                         {
                             while (reader.Read())
                             {
+                                // Creating and initializing a empty strings for values that can be null
                                 string country = "";
                                 string postalCode = "";
                                 string phone = "";
                                 string email = "";
 
-                                //Country
+                                // If the country is not null, adding the the value from database to the variable
                                 if (!reader.IsDBNull(reader.GetOrdinal("Country"))) country = reader.GetString(3);
-                                //Postal code
+                                // If the postalcode is not null, adding the the value from database to the variable
                                 if (!reader.IsDBNull(reader.GetOrdinal("PostalCode"))) postalCode = reader.GetString(4);
-                                //Phone 
+                                // If the phone is not null, adding the the value from database to the variable
                                 if (!reader.IsDBNull(reader.GetOrdinal("Phone"))) phone = reader.GetString(5);
-                                //Email
+                                // If the email is not null, adding the the value from database to the variable
                                 if (!reader.IsDBNull(reader.GetOrdinal("Email"))) email = reader.GetString(6);
 
+                                // Adding the values to the ready made Customer object
                                 Customer customerFromDB = new Customer(
                                     reader.GetInt32(0),
                                     reader.GetString(1),
@@ -266,6 +298,7 @@ namespace Assignment2
                                     phone,
                                     email
                                 );
+                                // Adding the new Customer object to the list
                                 customerToReturn.Add(customerFromDB);
                             }
                             reader.Close();
@@ -283,6 +316,7 @@ namespace Assignment2
             }
             return customerToReturn;
         }
+
         public void UpdateCustomer(Customer customer)
         {           
             string query = "UPDATE Customer SET FirstName=@firstName, LastName=@lastName, Country=@country, PostalCode=@postalCode, Phone=@phone, Email=@email LastName WHERE CustomerId = @customerId;";
@@ -292,6 +326,8 @@ namespace Assignment2
                 using (SqlCommand cmd = new SqlCommand(query, connection))
                 {
                     connection.Open();
+
+                    // Adding Customer object's values to query's placehodlers
                     cmd.Parameters.AddWithValue("@firstName", customer.FirstName);
                     cmd.Parameters.AddWithValue("@lastName", customer.LastName);
                     cmd.Parameters.AddWithValue("@country", customer.Country);
@@ -312,10 +348,13 @@ namespace Assignment2
                 throw new RepositoryException(ex);
             }
         }
+
         public List<CustomerCountry> GetNumberOfCustomersByCountry()
         {
+            // Creating empty list for fetched information about amount of the customer per country
             List<CustomerCountry> customerNumbers = new List<CustomerCountry>();
             string query = $"SELECT Country, COUNT(CustomerId) AS total FROM Customer GROUP BY Country ORDER BY total DESC;";
+
             try
             {
                 using (SqlConnection connection = new SqlConnection(Builder.ConnectionString))
@@ -326,10 +365,12 @@ namespace Assignment2
                     {
                         while (reader.Read())
                         {
+                            // Creating a new CustomerCountry object that contais the name of the country and the amount of customers
                             CustomerCountry customerCountryNumber = new CustomerCountry(
                                 reader.GetString(0),
                                 reader.GetInt32(1)
                             );
+                            // Addng the CustomerCountry object to the list
                             customerNumbers.Add(customerCountryNumber);
                         }
                     }
@@ -348,6 +389,7 @@ namespace Assignment2
 
         public CustomerSpender GetHighestSpendingCustomers()
         {
+            // Creating a new empty CustomerSpeder object
             CustomerSpender customerSpender = new CustomerSpender();
 
             try
@@ -371,6 +413,7 @@ namespace Assignment2
                             {
                                 while (reader.Read())
                                 {
+                                    // Adding CustomerID and the total invoice amount to the CustomerSpender dictionary
                                     customerSpender.AddCustomerSpendings(reader.GetInt32(0), reader.GetDecimal(1));
                                 }
                                 reader.Close();
@@ -392,6 +435,7 @@ namespace Assignment2
 
         public CustomerGenre GetMostPopularGenreByCustomerId(int customerId)
         {
+            // Creating a new empty CustomerGenre object
             CustomerGenre customerGenres = new CustomerGenre();
             try
             {
@@ -413,12 +457,15 @@ namespace Assignment2
                     {
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
+                            // Creating a new list for all genres of the customer
                             List<int> customerGenreAmounts = new List<int>();
                             while (reader.Read())
                             {
+                                // Adding the current row to the list
                                 customerGenreAmounts.Add(reader.GetInt32(1));
                                 if (customerGenreAmounts.Max() == reader.GetInt32(1))
                                 {
+                                    // If the current row's ammount is as big as the maximum amount of the genre, adding the row to the CustomerGenre dictionary
                                     customerGenres.AddCustomerGenreAmount(reader.GetString(0), reader.GetInt32(1));
                                 }    
                             }

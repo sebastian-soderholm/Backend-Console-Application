@@ -12,6 +12,7 @@ namespace Assignment2.Models
         {
 
         }
+
         public Customer(int id, string firstName, string lastName, string country, string postalCode, string phoneNumber, string email)
         {
             Id = id;

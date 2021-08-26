@@ -18,6 +18,7 @@ namespace Assignment2.Models
         {
             GenreAmount.Add(genre, amount);
         }
+
         /// <summary>
         /// Generate string of most popular genre(s) with amount of purchases
         /// </summary>
@@ -30,9 +31,7 @@ namespace Assignment2.Models
             {
                 returnString.Append($"Genre: {genreamount.Key} ({genreamount.Value})\n");
             }
-
             return returnString.ToString();
-
         }
     }
 }
