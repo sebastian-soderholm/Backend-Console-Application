@@ -88,20 +88,34 @@ namespace Assignment2
                     {
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
+                            if (reader.Read())
+                            {
+                                string country = "";
+                                string postalCode = "";
+                                string phone = "";
+                                string email = "";
 
-                                if (reader.Read())
-                                {
-                                    customerFromDB = new Customer(
-                                    reader.GetInt32(0),
-                                    reader.GetString(1),
-                                    reader.GetString(2),
-                                    reader.GetString(3),
-                                    reader.GetString(4),
-                                    reader.GetString(5),
-                                    reader.GetString(6)
-                                    );
-                                }
-                                reader.Close();
+                                //Country
+                                if (!reader.IsDBNull(reader.GetOrdinal("Country"))) country = reader.GetString(3);
+                                //Postal code
+                                if (!reader.IsDBNull(reader.GetOrdinal("PostalCode"))) postalCode = reader.GetString(4);
+                                //Phone 
+                                if (!reader.IsDBNull(reader.GetOrdinal("Phone"))) phone = reader.GetString(5 );
+                                //Email
+                                if (!reader.IsDBNull(reader.GetOrdinal("Email"))) email = reader.GetString(6);
+
+
+                                customerFromDB = new Customer(
+                                reader.GetInt32(0),
+                                reader.GetString(1),
+                                reader.GetString(2),
+                                country,
+                                postalCode,
+                                phone,
+                                email
+                                );
+                            }
+                            reader.Close();
                         }
                     }
                 }
@@ -137,17 +151,32 @@ namespace Assignment2
                                 //reader.IsDBNull check usage to prevent first null object??
                                 while (reader.Read())
                                 {
-                                    Customer customerFromDB = new Customer(
-                                    reader.GetInt32(0),
-                                    reader.GetString(1),
-                                    reader.GetString(2),
-                                    reader.GetString(3),
-                                    reader.GetString(4),
-                                    reader.GetString(5),
-                                    reader.GetString(6)
-                                    );
+                                string country = "";
+                                string postalCode = "";
+                                string phone = "";
+                                string email = "";
 
-                                    customerToReturn.Add(customerFromDB);
+                                //Country
+                                if (!reader.IsDBNull(reader.GetOrdinal("Country"))) country = reader.GetString(3);
+                                //Postal code
+                                if (!reader.IsDBNull(reader.GetOrdinal("PostalCode"))) postalCode = reader.GetString(4);
+                                //Phone 
+                                if (!reader.IsDBNull(reader.GetOrdinal("Phone"))) phone = reader.GetString(5);
+                                //Email
+                                if (!reader.IsDBNull(reader.GetOrdinal("Email"))) email = reader.GetString(6);
+
+
+                                Customer customerFromDB = new Customer(
+                                reader.GetInt32(0),
+                                reader.GetString(1),
+                                reader.GetString(2),
+                                country,
+                                postalCode,
+                                phone,
+                                email
+                                );
+
+                                customerToReturn.Add(customerFromDB);
                                 }
                                 reader.Close();
                         }
@@ -291,8 +320,6 @@ namespace Assignment2
 
             return customerNumbers;
         }
-    
-
         public CustomerSpender GetHighestSpendingCustomers()
         {
             CustomerSpender customerSpender = new CustomerSpender();
@@ -350,7 +377,6 @@ namespace Assignment2
 
             return customerSpender;
         }
-
         public CustomerGenre GetMostPopularGenre(Customer customer)
         {
             CustomerGenre customerGenres = new CustomerGenre();
