@@ -11,7 +11,7 @@ namespace Assignment2
         static void Main(string[] args)
         {
             // Creating the Repository with specific server name of the database
-            ICustomerRepository customerRepo = new CustomerRepository(@"5CG05206QV\SQLEXPRESS", "Chinook");
+            ICustomerRepository customerRepo = new CustomerRepository(@"5CG05206QS\SQLEXPRESS", "Chinook");
 
             int method = 6;
 
@@ -62,11 +62,12 @@ namespace Assignment2
                 {
                     Id = 50,
                     FirstName = "Bruce",
+                    LastName = "Wayne",
                     Country = "USA",
-                    PostalCode = "00100",
+                    PostalCode = "00110",
                     PhoneNumber = "050 123 4567",
                     Email = "batman@wayneenterprise.com"
-                };
+            };
                 customerRepo.UpdateCustomer(bruce);
 
             }

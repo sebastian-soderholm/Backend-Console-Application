@@ -319,7 +319,7 @@ namespace Assignment2
 
         public void UpdateCustomer(Customer customer)
         {           
-            string query = "UPDATE Customer SET FirstName=@firstName, LastName=@lastName, Country=@country, PostalCode=@postalCode, Phone=@phone, Email=@email LastName WHERE CustomerId = @customerId;";
+            string query = "UPDATE Customer SET FirstName=@firstName, LastName=@lastName, Country=@country, PostalCode=@postalCode, Phone=@phone, Email=@email WHERE CustomerId = @customerId;";
             try
             {
                 using (SqlConnection connection = new SqlConnection(Builder.ConnectionString))
