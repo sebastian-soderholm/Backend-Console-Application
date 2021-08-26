@@ -93,7 +93,7 @@ namespace Assignment2
                                 string phone = "";
                                 string email = "";
 
-                                //Country
+                                //Checking if the country is not null
                                 if (!reader.IsDBNull(reader.GetOrdinal("Country"))) country = reader.GetString(3);
                                 //Postal code
                                 if (!reader.IsDBNull(reader.GetOrdinal("PostalCode"))) postalCode = reader.GetString(4);
