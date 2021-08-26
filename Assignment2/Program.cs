@@ -10,7 +10,7 @@ namespace Assignment2
         static void Main(string[] args)
         {
             ICustomerRepository customerRepo = new CustomerRepository();
-            /*
+            
             Console.WriteLine(customerRepo.GetCustomerById(16).ToString());
 
             List<Customer> customers = customerRepo.GetCustomers();
@@ -33,14 +33,15 @@ namespace Assignment2
             };
             customerRepo.AddCustomer(testCustomer);
 
+            /*
             testCustomer = customerRepo.GetCustomerById(1);
             testCustomer.FirstName = "Luis";
             customerRepo.UpdateCustomer(testCustomer);
-            */
+            
             List<CustomerCountry> testList = customerRepo.GetNumberOfCustomersByCountry();
             //LinQ magics
             testList.ForEach(x => Console.WriteLine(x.Name + " | " + x.Count));
-
+            */
         }
     }
 }
