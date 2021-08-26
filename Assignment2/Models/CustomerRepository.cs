@@ -346,18 +346,32 @@ namespace Assignment2
                                 //reader.IsDBNull check usage to prevent first null object??
                                 while (reader.Read())
                                 {
+                                    string country = "";
+                                    string postalCode = "";
+                                    string phone = "";
+                                    string email = "";
+
+                                    //Country
+                                    if (!reader.IsDBNull(reader.GetOrdinal("Country"))) country = reader.GetString(3);
+                                    //Postal code
+                                    if (!reader.IsDBNull(reader.GetOrdinal("PostalCode"))) postalCode = reader.GetString(4);
+                                    //Phone 
+                                    if (!reader.IsDBNull(reader.GetOrdinal("Phone"))) phone = reader.GetString(5);
+                                    //Email
+                                    if (!reader.IsDBNull(reader.GetOrdinal("Email"))) email = reader.GetString(6);
+
+
                                     Customer customerFromDB = new Customer(
                                     reader.GetInt32(0),
                                     reader.GetString(1),
                                     reader.GetString(2),
-                                    reader.GetString(3),
-                                    reader.GetString(4),
-                                    reader.GetString(5),
-                                    reader.GetString(6)
+                                    country,
+                                    postalCode,
+                                    phone,
+                                    email
                                     );
-                                    double invoiceTotal = reader.GetDouble(7);
 
-                                    customerSpender.AddCustomerSpendings(customerFromDB , invoiceTotal);
+                                    customerSpender.AddCustomerSpendings(customerFromDB , reader.GetDecimal(7));
                                 }
                                 reader.Close();
                             }
