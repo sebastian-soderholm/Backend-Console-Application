@@ -29,7 +29,7 @@ namespace Assignment2
         /// <param name="initialCatalog">Name of database</param>
         public CustomerRepository(string dataSource, string initialCatalog)
         {
-            Builder.DataSource = "@" + dataSource;
+            Builder.DataSource = dataSource;
             Builder.InitialCatalog = initialCatalog;
             Builder.IntegratedSecurity = true;
         }
@@ -290,12 +290,114 @@ namespace Assignment2
 
         public CustomerSpender GetHighestSpendingCustomers()
         {
-            throw new NotImplementedException();
+            CustomerSpender customerSpender = new CustomerSpender();
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(Builder.ConnectionString))
+                {
+                    connection.Open();
+
+                    string query = @"
+                        SELECT Customer.CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email, Invoice.Total
+                        FROM Customer 
+                        JOIN Invoice  
+                        ON Customer.CustomerId = Invoice.CustomerId
+                        ORDER BY Invoice.Total DESC";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            try
+                            {
+                                //reader.IsDBNull check usage to prevent first null object??
+                                while (reader.Read())
+                                {
+                                    Customer customerFromDB = new Customer(
+                                    reader.GetInt32(0),
+                                    reader.GetString(1),
+                                    reader.GetString(2),
+                                    reader.GetString(3),
+                                    reader.GetString(4),
+                                    reader.GetString(5),
+                                    reader.GetString(6)
+                                    );
+                                    double invoiceTotal = reader.GetDouble(7);
+
+                                    customerSpender.AddCustomerSpendings(customerFromDB , invoiceTotal);
+                                }
+                                reader.Close();
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine("Error: " + ex.ToString());
+                            }
+                        }
+                    }
+                }
+
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return customerSpender;
         }
 
         public CustomerGenre GetMostPopularGenre(Customer customer)
         {
-            throw new NotImplementedException();
+            CustomerGenre customerGenres = new CustomerGenre();
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(Builder.ConnectionString))
+                {
+                    connection.Open();
+
+                    string query = "SELECT Genre.Name, COUNT(Genre.Name) AS amount " +
+                                    "FROM Customer, Invoice, InvoiceLine, Track, Genre " +
+                                    "WHERE Customer.CustomerId = Invoice.CustomerId " +
+                                    "AND Invoice.CustomerId = InvoiceLine.InvoiceId " +
+                                    "AND InvoiceLine.TrackId = Track.TrackId " +
+                                    "AND Track.GenreId = Genre.GenreId " +
+                                    $"AND Customer.CustomerId = {customer.Id} " +
+                                    "GROUP BY Genre.Name " +
+                                    "ORDER BY amount DESC";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            try
+                            {
+                                int maxAmountOfGenres = 0;
+                                //reader.IsDBNull check usage to prevent first null object??
+                                while (reader.Read())
+                                {
+                                    //Check if several genres with highest number of occurences (ordered DESC)
+                                    if (maxAmountOfGenres < reader.GetInt32(1))
+                                    {
+                                        customerGenres.AddCustomerGenre(reader.GetString(0));
+                                        maxAmountOfGenres = reader.GetInt32(1);
+                                    }
+                                }
+                                reader.Close();
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine("Error: " + ex.ToString());
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return customerGenres;
         }
     }
 }

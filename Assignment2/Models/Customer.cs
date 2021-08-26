@@ -29,6 +29,8 @@ namespace Assignment2.Models
         public string PostalCode { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
+        public string Value { get; internal set; }
+
         /// <summary>
         /// Create string of customer properties
         /// </summary>
