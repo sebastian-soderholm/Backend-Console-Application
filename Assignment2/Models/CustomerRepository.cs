@@ -1,4 +1,5 @@
-﻿using Assignment2.Models;
+﻿using Assignment2.Exceptions;
+using Assignment2.Models;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace Assignment2
     {
         public SqlConnectionStringBuilder Builder = new SqlConnectionStringBuilder();
         public Customer Customer;
+        public RepositoryException repositoryException;
 
         /// <summary>
         /// Initialize SQL Connection Builder with default values
@@ -58,9 +60,13 @@ namespace Assignment2
                     }
                 }
             }
+            catch (SqlException ex)
+            {
+                throw new RepositoryException(ex);
+            }
             catch (Exception ex)
             {
-                Console.WriteLine("Error: " + ex.ToString());
+                throw new RepositoryException(ex);
             }
 
             return addCustomer;
@@ -82,8 +88,7 @@ namespace Assignment2
                     {
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
-                            try
-                            {
+
                                 if (reader.Read())
                                 {
                                     customerFromDB = new Customer(
@@ -97,18 +102,17 @@ namespace Assignment2
                                     );
                                 }
                                 reader.Close();
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine("Error: " + ex.ToString());
-                            }
                         }
                     }
                 }
             }
             catch (SqlException ex)
             {
-                Console.WriteLine(ex.Message);
+                throw new RepositoryException(ex);
+            }
+            catch (Exception ex)
+            {
+                throw new RepositoryException(ex);
             }
 
             return customerFromDB;
@@ -130,8 +134,6 @@ namespace Assignment2
                     {
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
-                            try
-                            {
                                 //reader.IsDBNull check usage to prevent first null object??
                                 while (reader.Read())
                                 {
@@ -148,20 +150,19 @@ namespace Assignment2
                                     customerToReturn.Add(customerFromDB);
                                 }
                                 reader.Close();
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine("Error: " + ex.ToString());
-                            }
                         }
                     }
                 }
             }
             catch (SqlException ex)
             {
-                Console.WriteLine(ex.Message);
+                throw new RepositoryException(ex);
             }
-            
+            catch (Exception ex)
+            {
+                throw new RepositoryException(ex);
+            }
+
             return customerToReturn;
         }
 
@@ -180,8 +181,6 @@ namespace Assignment2
                     {
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
-                            try
-                            {
                                 if (reader.Read())
                                 {
                                     customerFromDB = new Customer(
@@ -195,18 +194,17 @@ namespace Assignment2
                                     );
                                 }
                                 reader.Close();
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine("Error: " + ex.ToString());
-                            }
                         }
                     }
                 }
             }
             catch (SqlException ex)
             {
-                Console.WriteLine(ex.Message);
+                throw new RepositoryException(ex);
+            }
+            catch (Exception ex)
+            {
+                throw new RepositoryException(ex);
             }
 
             return customerFromDB;
@@ -241,11 +239,14 @@ namespace Assignment2
 
                 }
                 //vähän parantais exceptionii
-            } catch (SqlException ex)
+            }
+            catch (SqlException ex)
             {
-                // Wrappaa uuteen repository exceptioniin, joka ottaa alkuperäisen exceptionin sisään. Tallennetaan se propertyyn
-               // throw new RepositoryException(ex);
-                Console.WriteLine("Error: " + ex.ToString());
+                throw new RepositoryException(ex);
+            }
+            catch (Exception ex)
+            {
+                throw new RepositoryException(ex);
             }
         
         }
@@ -281,9 +282,13 @@ namespace Assignment2
             }
             catch (SqlException ex)
             {
-                Console.WriteLine(ex.Message);
+                throw new RepositoryException(ex);
             }
-            
+            catch (Exception ex)
+            {
+                throw new RepositoryException(ex);
+            }
+
             return customerNumbers;
         }
     
@@ -369,8 +374,6 @@ namespace Assignment2
                     {
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
-                            try
-                            {
                                 int maxAmountOfGenres = 0;
                                 //reader.IsDBNull check usage to prevent first null object??
                                 while (reader.Read())
@@ -383,18 +386,17 @@ namespace Assignment2
                                     }
                                 }
                                 reader.Close();
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine("Error: " + ex.ToString());
-                            }
                         }
                     }
                 }
             }
             catch (SqlException ex)
             {
-                Console.WriteLine(ex.Message);
+                throw new RepositoryException(ex);
+            }
+            catch (Exception ex)
+            {
+                throw new RepositoryException(ex);
             }
 
             return customerGenres;
