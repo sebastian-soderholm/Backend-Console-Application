@@ -20,7 +20,7 @@ namespace Assignment2
         /// </summary>
         public CustomerRepository()
         {
-            Builder.DataSource = @"5CG05206R1\SQLEXPRESS"; // Peppi - @"5CG05206QV\SQLEXPRESS"
+            Builder.DataSource = @"5CG05206R1\SQLEXPRESS";
             Builder.InitialCatalog = "Chinook";
             Builder.IntegratedSecurity = true;
         }
@@ -300,15 +300,13 @@ namespace Assignment2
 
             return customerToReturn;
         }
-        //MIKKO
-        //vois olla void
+        
         public void UpdateCustomer(Customer customer)
         {           
             string query = "UPDATE Customer SET FirstName=@firstName, LastName=@lastName, Country=@country, PostalCode=@postalCode, Phone=@phone, Email=@email LastName WHERE CustomerId = @customerId;";
             try
             {
                 using (SqlConnection connection = new SqlConnection(Builder.ConnectionString))
-                //laajenna loppuun!
                 using (SqlCommand cmd = new SqlCommand(query, connection))
                 {
                     connection.Open();
@@ -324,7 +322,7 @@ namespace Assignment2
                     cmd.ExecuteNonQuery();
 
                 }
-                //vähän parantais exceptionii
+               
             }
             catch (SqlException ex)
             {
@@ -336,7 +334,7 @@ namespace Assignment2
             }
         
         }
-        //MIKKO
+        
         public List<CustomerCountry> GetNumberOfCustomersByCountry()
         {
             List<CustomerCountry> customerNumbers = new List<CustomerCountry>();
