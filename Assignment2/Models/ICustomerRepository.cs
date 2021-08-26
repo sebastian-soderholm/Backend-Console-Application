@@ -31,33 +31,39 @@ namespace Assignment2.Models
         /// <param name="limit">Max number of customer objects to return</param>
         /// <param name="offset">Number of customers to skip from the beginning of the table</param>
         /// <returns>List of customer objects</returns>
+        /// <exception cref="SqlException">SQL Server error</exception>
         public List<Customer> GetCustomersPage(int limit, int offset);
         /// <summary>
         /// Add customer to database
         /// </summary>
         /// <param name="customer">Customer to add to the database</param>
+        /// <exception cref="SqlException">SQL Server error</exception>
         public Customer AddCustomer(Customer customer);
         /// <summary>
         /// Update a customer's info (with same Id)
         /// </summary>
         /// <param name="customer">Customer object to update</param>
+        /// <exception cref="SqlException">SQL Server error</exception>
         public void UpdateCustomer(Customer customer);
         /// <summary>
         /// Get number of customers in given country
         /// </summary>
         /// <param name="country">Name of country as string</param>
         /// <returns>Customer count as int</returns>
+        /// <exception cref="SqlException">SQL Server error</exception>
         public List<CustomerCountry> GetNumberOfCustomersByCountry();
         /// <summary>
         /// Get highest spending customers in descending order
         /// </summary>
         /// <returns>CustomerCountry object</returns>
+        /// <exception cref="SqlException">SQL Server error</exception>
         public CustomerSpender GetHighestSpendingCustomers();
         /// <summary>
         /// Get most popular genres for a given customer
         /// </summary>
         /// <param name="CustomerId">Customer object of customer who's info is to be fetched</param>
         /// <returns>CustomerGenre object, contains multiple genres in the case of a tie</returns>
+        /// <exception cref="SqlException">SQL Server error</exception>
         public CustomerGenre GetMostPopularGenre(Customer customer);
 
 
