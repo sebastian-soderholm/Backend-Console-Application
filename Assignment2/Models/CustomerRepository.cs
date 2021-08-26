@@ -71,7 +71,6 @@ namespace Assignment2
 
             return addCustomer;
         }
-
         public Customer GetCustomerById(int id)
         {
             Customer customerFromDB = null;
@@ -131,7 +130,6 @@ namespace Assignment2
 
             return customerFromDB;
         }
-
         public List<Customer> GetCustomers()
         {
             List<Customer> customerToReturn = new List<Customer>();
@@ -194,7 +192,6 @@ namespace Assignment2
 
             return customerToReturn;
         }
-
         public Customer GetCustomerByName(string CustomerName)
         {
             Customer customerFromDB = null;
@@ -238,7 +235,6 @@ namespace Assignment2
 
             return customerFromDB;
         }
-
         public List<Customer> GetCustomersPage(int limit, int offset)
         {
             List<Customer> customerToReturn = new List<Customer>();
@@ -300,7 +296,6 @@ namespace Assignment2
 
             return customerToReturn;
         }
-        
         public void UpdateCustomer(Customer customer)
         {           
             string query = "UPDATE Customer SET FirstName=@firstName, LastName=@lastName, Country=@country, PostalCode=@postalCode, Phone=@phone, Email=@email LastName WHERE CustomerId = @customerId;";
@@ -334,7 +329,6 @@ namespace Assignment2
             }
         
         }
-        
         public List<CustomerCountry> GetNumberOfCustomersByCountry()
         {
             List<CustomerCountry> customerNumbers = new List<CustomerCountry>();
