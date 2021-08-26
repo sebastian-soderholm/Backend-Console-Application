@@ -18,7 +18,10 @@ namespace Assignment2.Models
         {
             GenreAmount.Add(genre, amount);
         }
-
+        /// <summary>
+        /// Generate string of most popular genre(s) with amount of purchases
+        /// </summary>
+        /// <returns>String of genres and amount of purchases</returns>
         public override string ToString()
         {
             StringBuilder returnString = new StringBuilder();

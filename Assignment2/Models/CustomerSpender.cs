@@ -19,7 +19,10 @@ namespace Assignment2.Models
         {
             CustomerSpendings.Add(customerId, spendings);
         }
-
+        /// <summary>
+        /// Generate string of customer IDs and spendings in descending order according to spendings
+        /// </summary>
+        /// <returns>String of customer IDs and amount spending for given customer</returns>
         public override string ToString()
         {
             StringBuilder returnString = new StringBuilder();
