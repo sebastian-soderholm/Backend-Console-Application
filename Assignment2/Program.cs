@@ -26,25 +26,6 @@ namespace Assignment2
             {
                 Console.WriteLine();
             }
-
-            //Customer testCustomer = new Customer()
-            //{
-            //    FirstName = "Bruce",
-            //    LastName = "Wayne",
-            //    Country = "USA",
-            //    PostalCode = "53540",
-            //    PhoneNumber = "050123456",
-            //    Email = "batman@wayneenterprises.com"
-            //};
-            //customerRepo.AddCustomer(testCustomer);
-            /*
-            testCustomer = customerRepo.GetCustomerById(1);
-            testCustomer.FirstName = "Luis";
-            customerRepo.UpdateCustomer(testCustomer);
-            List<CustomerCountry> testList = customerRepo.GetNumberOfCustomersByCountry();
-            //LinQ magics
-            testList.ForEach(x => Console.WriteLine(x.Name + " | " + x.Count));
-            */
         }
     }
 }
