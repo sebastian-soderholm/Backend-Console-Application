@@ -61,10 +61,10 @@ namespace Assignment2.Models
         /// <summary>
         /// Get most popular genres for a given customer
         /// </summary>
-        /// <param name="CustomerId">Customer object of customer who's info is to be fetched</param>
+        /// <param name="customerId">Id  of customer to be searched for</param>
         /// <returns>CustomerGenre object, contains multiple genres in the case of a tie</returns>
         /// <exception cref="SqlException">SQL Server error</exception>
-        public CustomerGenre GetMostPopularGenre(Customer customer);
+        public CustomerGenre GetMostPopularGenreByCustomerId(int customerId);
 
 
     }
