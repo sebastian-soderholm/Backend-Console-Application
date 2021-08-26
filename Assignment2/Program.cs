@@ -1,24 +1,31 @@
-﻿using Assignment2.Models;
+﻿using Assignment2.Exceptions;
+using Assignment2.Models;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
+
 namespace Assignment2
 {
     class Program
     {
         static void Main(string[] args)
         {
-            ICustomerRepository customerRepo = new CustomerRepository(@"5CG05206QV\SQLEXPRESS", "Chinook");
-            //Console.WriteLine(customerRepo.GetHighestSpendingCustomers());
-            
-            Console.WriteLine(customerRepo.GetCustomerByName("Hannah"));
-            //Console.WriteLine(customerRepo.GetCustomerById(42));
+            ICustomerRepository customerRepo = new CustomerRepository(@"5CG05206QS\SQLEXPRESS", "Chinook");
+            //Console.WriteLine(customerRepo.GetCustomerById(45));
 
-            foreach (CustomerSpender i in customerRepo.GetHighestSpendingCustomers())
+            try
             {
-                Console.WriteLine(i);
-            }
+                List<Customer> customerPage = customerRepo.GetCustomersPage(2,20);
 
+                foreach(Customer customer in customerPage)
+                {
+                    Console.WriteLine(customer.ToString());
+                }
+            }
+            catch (RepositoryException re)
+            {
+                Console.WriteLine();
+            }
 
             //Customer testCustomer = new Customer()
             //{
