@@ -219,7 +219,7 @@ namespace Assignment2
         //MIKKO
         //vois olla void
         public void UpdateCustomer(Customer customer)
-        {               //@FirstName, @LastName, @Country, @PostalCode, @Phone, @Email
+        {           
             string query = "UPDATE Customer SET FirstName=@firstName, LastName=@lastName, Country=@country, PostalCode=@postalCode, Phone=@phone, Email=@email LastName WHERE CustomerId = @customerId;";
             try
             {
