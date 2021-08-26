@@ -8,28 +8,24 @@ namespace Assignment2.Models
 {
     public class CustomerGenre
     {
-        public List<string> Genre { get; set; }
+        public Dictionary<string, int> GenreAmount = new Dictionary<string, int>();
 
-        public CustomerGenre()
-        {
-            Genre = new List<string>();
-        }
         /// <summary>
         /// Add genre as string for CustomerGenre
         /// </summary>
         /// <param name="genre">Genre name as string</param>
-        public void AddCustomerGenre(string genre)
+        public void AddCustomerGenreAmount(string genre, int amount)
         {
-            Genre.Append(genre);
+            GenreAmount.Add(genre, amount);
         }
 
         public override string ToString()
         {
             StringBuilder returnString = new StringBuilder();
 
-            foreach (string genre in Genre)
+            foreach (KeyValuePair<string, int> genreamount in GenreAmount)
             {
-                returnString.Append(genre);
+                returnString.Append($"Genre: {genreamount.Key} ({genreamount.Value})\n");
             }
 
             return returnString.ToString();

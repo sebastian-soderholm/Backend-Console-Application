@@ -388,11 +388,11 @@ namespace Assignment2
                     connection.Open();
 
                     string query = @"
-                        SELECT Customer.CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email, Invoice.Total
-                        FROM Customer 
-                        JOIN Invoice  
-                        ON Customer.CustomerId = Invoice.CustomerId
-                        ORDER BY Invoice.Total DESC";
+                        SELECT Customer.CustomerId, SUM(Invoice.Total) AS total
+                        FROM Customer, Invoice
+                        WHERE Customer.CustomerId = Invoice.CustomerId
+                        GROUP BY Customer.CustomerId
+                        ORDER BY total DESC";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -400,35 +400,9 @@ namespace Assignment2
                         {
                             try
                             {
-                                //reader.IsDBNull check usage to prevent first null object??
                                 while (reader.Read())
                                 {
-                                    string country = "";
-                                    string postalCode = "";
-                                    string phone = "";
-                                    string email = "";
-
-                                    //Country
-                                    if (!reader.IsDBNull(reader.GetOrdinal("Country"))) country = reader.GetString(3);
-                                    //Postal code
-                                    if (!reader.IsDBNull(reader.GetOrdinal("PostalCode"))) postalCode = reader.GetString(4);
-                                    //Phone 
-                                    if (!reader.IsDBNull(reader.GetOrdinal("Phone"))) phone = reader.GetString(5);
-                                    //Email
-                                    if (!reader.IsDBNull(reader.GetOrdinal("Email"))) email = reader.GetString(6);
-
-
-                                    Customer customerFromDB = new Customer(
-                                    reader.GetInt32(0),
-                                    reader.GetString(1),
-                                    reader.GetString(2),
-                                    country,
-                                    postalCode,
-                                    phone,
-                                    email
-                                    );
-
-                                    customerSpender.AddCustomerSpendings(customerFromDB , reader.GetDecimal(7));
+                                    customerSpender.AddCustomerSpendings(reader.GetInt32(0), reader.GetDecimal(1));
                                 }
                                 reader.Close();
                             }
@@ -448,7 +422,7 @@ namespace Assignment2
 
             return customerSpender;
         }
-        public CustomerGenre GetMostPopularGenre(Customer customer)
+        public CustomerGenre GetMostPopularGenreByCustomerId(int customerId)
         {
             CustomerGenre customerGenres = new CustomerGenre();
             try
@@ -463,7 +437,7 @@ namespace Assignment2
                                     "AND Invoice.CustomerId = InvoiceLine.InvoiceId " +
                                     "AND InvoiceLine.TrackId = Track.TrackId " +
                                     "AND Track.GenreId = Genre.GenreId " +
-                                    $"AND Customer.CustomerId = {customer.Id} " +
+                                    $"AND Customer.CustomerId = {customerId} " +
                                     "GROUP BY Genre.Name " +
                                     "ORDER BY amount DESC";
 
@@ -471,18 +445,17 @@ namespace Assignment2
                     {
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
-                                int maxAmountOfGenres = 0;
-                                //reader.IsDBNull check usage to prevent first null object??
-                                while (reader.Read())
+                            List<int> customerGenreAmounts = new List<int>();
+                            while (reader.Read())
+                            {
+                                customerGenreAmounts.Add(reader.GetInt32(1));
+                                if (customerGenreAmounts.Max() == reader.GetInt32(1))
                                 {
-                                    //Check if several genres with highest number of occurences (ordered DESC)
-                                    if (maxAmountOfGenres < reader.GetInt32(1))
-                                    {
-                                        customerGenres.AddCustomerGenre(reader.GetString(0));
-                                        maxAmountOfGenres = reader.GetInt32(1);
-                                    }
+                                    customerGenres.AddCustomerGenreAmount(reader.GetString(0), reader.GetInt32(1));
                                 }
-                                reader.Close();
+                                    
+                            }
+                            reader.Close();
                         }
                     }
                 }

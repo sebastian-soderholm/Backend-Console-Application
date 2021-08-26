@@ -8,25 +8,25 @@ namespace Assignment2.Models
 {
     public class CustomerSpender
     {
-        public Dictionary<Customer, decimal> CustomerSpendings = new Dictionary<Customer, decimal>();
+        public Dictionary<int, decimal> CustomerSpendings = new Dictionary<int, decimal>();
 
         /// <summary>
         /// Add a customer and spendings for given customer
         /// </summary>
         /// <param name="customer">Customer object to add</param>
         /// <param name="spendings">Spendings for given customer (double)</param>
-        public void AddCustomerSpendings(Customer customer, decimal spendings)
+        public void AddCustomerSpendings(int customerId, decimal spendings)
         {
-            CustomerSpendings.Add(customer, spendings);
+            CustomerSpendings.Add(customerId, spendings);
         }
 
         public override string ToString()
         {
             StringBuilder returnString = new StringBuilder();
 
-            foreach (KeyValuePair<Customer, decimal> customer in CustomerSpendings)
+            foreach (KeyValuePair<int, decimal> customer in CustomerSpendings)
             {
-                returnString.Append(customer.Key.ToString() + "Spending: " + customer.Value + "\n\n");
+                returnString.Append("Customer Id: " + customer.Key + " Spending: " + customer.Value + "\n\n");
             }
 
             return returnString.ToString();
