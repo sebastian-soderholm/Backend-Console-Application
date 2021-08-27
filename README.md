@@ -1,6 +1,7 @@
 # Database access tool
 
-C# console application used to interface with SQLExpress database.
+C# console application used to interface with the "Chinook" SQLExpress database.
+To use this, change customerRepo into your own data source.
 The console application can be used to choose different operations that call the correct methods:
 - display all customers
 - display specific customer by ID
