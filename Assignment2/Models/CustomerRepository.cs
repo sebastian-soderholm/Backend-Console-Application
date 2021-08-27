@@ -45,7 +45,7 @@ namespace Assignment2
                 {
                     connection.Open();
 
-                    string query = "INSERT INTO Customer (FirstName, LastName, Country, PostalCode, Phone, Email) " + 
+                    string query = "INSERT INTO Customer (FirstName, LastName, Country, PostalCode, Phone, Email)" + 
                         "VALUES (@FirstName, @LastName, @Country, @PostalCode, @Phone, @Email)";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
@@ -319,7 +319,7 @@ namespace Assignment2
 
         public void UpdateCustomer(Customer customer)
         {           
-            string query = "UPDATE Customer SET FirstName=@firstName, LastName=@lastName, Country=@country, PostalCode=@postalCode, Phone=@phone, Email=@email WHERE CustomerId = @customerId;";
+            string query = "UPDATE Customer SET FirstName=@firstName, LastName=@lastName, Country=@country, PostalCode=@postalCode, Phone=@phone, Email=@email  WHERE CustomerId = @customerId;";
             try
             {
                 using (SqlConnection connection = new SqlConnection(Builder.ConnectionString))

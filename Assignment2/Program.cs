@@ -13,7 +13,7 @@ namespace Assignment2
             // Creating the Repository with specific server name of the database
             ICustomerRepository customerRepo = new CustomerRepository(@"5CG05206QS\SQLEXPRESS", "Chinook");
 
-            int method = 6;
+            int method = 9;
 
             // display all customers
             if (method == 1)
@@ -60,7 +60,7 @@ namespace Assignment2
             {
                 Customer bruce = new Customer()
                 {
-                    Id = 50,
+                    Id = 60,
                     FirstName = "Bruce",
                     LastName = "Wayne",
                     Country = "USA",
@@ -87,7 +87,7 @@ namespace Assignment2
             // displays the top genre choice of a specific customer by ID
             else if (method == 9)
             {
-                Console.WriteLine(customerRepo.GetMostPopularGenreByCustomerId(6));
+                Console.WriteLine(customerRepo.GetMostPopularGenreByCustomerId(15));
             }
 
         }
