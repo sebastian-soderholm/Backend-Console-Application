@@ -51,6 +51,7 @@ namespace Assignment2
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         // Adding Customer object's values to query's placehodlers, ID will be auto generated
+                        // Parametrize values to avoid SQL Injections
                         command.Parameters.AddWithValue("@FirstName", addCustomer.FirstName);
                         command.Parameters.AddWithValue("@LastName", addCustomer.LastName);
                         command.Parameters.AddWithValue("@Country", addCustomer.Country);
