@@ -83,11 +83,14 @@ namespace Assignment2
                 {
                     connection.Open();
 
-                    string query = $"SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email " +
-                        $"FROM Customer WHERE CustomerId = {id}";
+                    string query = "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email " +
+                        "FROM Customer WHERE CustomerId = @CustomerId";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                        // Parametrize values to avoid SQL Injections
+                        command.Parameters.AddWithValue("@CustomerId", id);
+
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
                             if (reader.Read())
@@ -206,10 +209,15 @@ namespace Assignment2
                 {
                     connection.Open();
 
-                    string query = $"SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer WHERE Customer.FirstName LIKE '%{CustomerName}%' OR Customer.LastName LIKE '%{CustomerName}%'";
+                    string query = "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer " +
+                        "WHERE Customer.FirstName LIKE '%' + @CustomerName + '%' OR Customer.LastName LIKE '%' + @CustomerName + '%'";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                        // Adding Customer object's values to query's placehodlers, ID will be auto generated
+                        // Parametrize values to avoid SQL Injections
+                        command.Parameters.AddWithValue("@CustomerName", CustomerName);
+
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
                             if (reader.Read())
@@ -266,10 +274,19 @@ namespace Assignment2
                 {
                     connection.Open();
 
-                    string query = $"SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email FROM Customer ORDER BY CustomerId OFFSET {offset} ROWS FETCH NEXT {limit} ROWS ONLY ";
+                    string query = "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email " +
+                        "FROM Customer " +
+                        "ORDER BY CustomerId " +
+                        "OFFSET @offset ROWS FETCH NEXT @limit ROWS ONLY ";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+
+                        // Adding Customer object's values to query's placehodlers, ID will be auto generated
+                        // Parametrize values to avoid SQL Injections
+                        command.Parameters.AddWithValue("@offset", offset);
+                        command.Parameters.AddWithValue("@limit", limit);
+
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
                             while (reader.Read())
@@ -354,7 +371,7 @@ namespace Assignment2
         {
             // Creating empty list for fetched information about amount of the customer per country
             List<CustomerCountry> customerNumbers = new List<CustomerCountry>();
-            string query = $"SELECT Country, COUNT(CustomerId) AS total FROM Customer GROUP BY Country ORDER BY total DESC;";
+            string query = "SELECT Country, COUNT(CustomerId) AS total FROM Customer GROUP BY Country ORDER BY total DESC;";
 
             try
             {
@@ -450,12 +467,15 @@ namespace Assignment2
                                     "AND Invoice.CustomerId = InvoiceLine.InvoiceId " +
                                     "AND InvoiceLine.TrackId = Track.TrackId " +
                                     "AND Track.GenreId = Genre.GenreId " +
-                                    $"AND Customer.CustomerId = {customerId} " +
+                                    "AND Customer.CustomerId = @customerId " +
                                     "GROUP BY Genre.Name " +
                                     "ORDER BY amount DESC";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
+                        // Parametrize values to avoid SQL Injections
+                        command.Parameters.AddWithValue("@customerId", customerId);
+
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
                             // Creating a new list for all genres of the customer
