@@ -37,6 +37,10 @@ namespace Assignment2
             Builder.IntegratedSecurity = true;
         }
 
+        /// <summary>
+        /// Adds given customer to database
+        /// </summary>
+        /// <param name="addCustomer">Customer object to add to database</param>
         public void AddCustomer(Customer addCustomer)
         {
             try
@@ -73,6 +77,11 @@ namespace Assignment2
             }
         }
 
+        /// <summary>
+        /// Get a customer by it's ID value
+        /// </summary>
+        /// <param name="id">ID value of customer to get from database</param>
+        /// <returns>Customer object</returns>
         public Customer GetCustomerById(int id)
         {
             // Creating an empty Customer object, for values fetched from the database
@@ -137,6 +146,10 @@ namespace Assignment2
             return customerFromDB;
         }
 
+        /// <summary>
+        /// Get all customers
+        /// </summary>
+        /// <returns>List of customer objects containing all customers from database</returns>
         public List<Customer> GetCustomers()
         {
             // Creating empty list for fetched customers, that will be returned
@@ -199,6 +212,11 @@ namespace Assignment2
             return customerToReturn;
         }
 
+        /// <summary>
+        /// Get a customer by name
+        /// </summary>
+        /// <param name="CustomerName">Name of customer as string to get</param>
+        /// <returns>Customer object, null if not found</returns>
         public Customer GetCustomerByName(string CustomerName)
         {
             // Creating an empty Customer object, for values fetched from the database
@@ -264,6 +282,12 @@ namespace Assignment2
             return customerFromDB;
         }
 
+        /// <summary>
+        /// Get given amount of customers starting from given offset
+        /// </summary>
+        /// <param name="limit">Maximum amount of customers to return</param>
+        /// <param name="offset">Amount of customers to skip from beginning of database entries</param>
+        /// <returns></returns>
         public List<Customer> GetCustomersPage(int limit, int offset)
         {
             // Creating empty list for fetched customers, that will be returned
@@ -335,6 +359,10 @@ namespace Assignment2
             return customerToReturn;
         }
 
+        /// <summary>
+        /// Update given customer
+        /// </summary>
+        /// <param name="customer">Customer object with updated information</param>
         public void UpdateCustomer(Customer customer)
         {           
             string query = "UPDATE Customer SET FirstName=@firstName, LastName=@lastName, Country=@country, PostalCode=@postalCode, Phone=@phone, Email=@email  WHERE CustomerId = @customerId;";
@@ -367,6 +395,10 @@ namespace Assignment2
             }
         }
 
+        /// <summary>
+        /// Get the number of customers by country
+        /// </summary>
+        /// <returns>List of CustomerCountry objects containing country name and count</returns>
         public List<CustomerCountry> GetNumberOfCustomersByCountry()
         {
             // Creating empty list for fetched information about amount of the customer per country
@@ -405,6 +437,10 @@ namespace Assignment2
             return customerNumbers;
         }
 
+        /// <summary>
+        /// Get customers ordered by spending amount from highest to lowest
+        /// </summary>
+        /// <returns>CustomerSpender object containing customers ordered by spending amount from highest to lowest</returns>
         public CustomerSpender GetHighestSpendingCustomers()
         {
             // Creating a new empty CustomerSpeder object
@@ -451,6 +487,11 @@ namespace Assignment2
             return customerSpender;
         }
 
+        /// <summary>
+        /// Get most popular genre for a given customer ID
+        /// </summary>
+        /// <param name="customerId">Customer ID for which to get most popular genre</param>
+        /// <returns>CustomerGenre object containing genre name and amount of purchases</returns>
         public CustomerGenre GetMostPopularGenreByCustomerId(int customerId)
         {
             // Creating a new empty CustomerGenre object
